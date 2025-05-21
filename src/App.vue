@@ -1,33 +1,34 @@
 <script setup lang="ts">
+  import NavBar from './components/NavBar.vue'
   import { ref, onMounted } from 'vue'
-  import HelloWorld from './components/HelloWorld.vue'
-  import TheWelcome from './components/TheWelcome.vue'
+
   import LoadingScreen from './components/LoadingScreen.vue'
 
   const loading = ref(true)
+  const isPWA = ref(false)
 
   onMounted(() => {
     setTimeout(() => {
       loading.value = false
     }, 1500) // simulate loading delay
+
+    // Detect PWA mode
+    isPWA.value =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as any).standalone === true;
   })
 </script>
 
-<template>
-  <LoadingScreen v-if="loading" />
-  <template v-else>
-    <header>
-      <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-      <div class="wrapper">
-        <HelloWorld msg="You did it!" />
-      </div>
-    </header>
-
-    <main>
-      <TheWelcome />
-    </main>
-  </template>
+<template v-if="loading">
+  <LoadingScreen />
+</template>
+<template v-else>
+  <div v-if="isPWA" class="mobile-only">
+    <NavBar class="navbar" />
+  </div>
+  <div v-else class="desktop-layout">
+    <!-- Desktop layout content goes here -->
+  </div>
 </template>
 
 <style scoped>
@@ -44,17 +45,30 @@
     header {
       display: flex;
       place-items: center;
-      padding-right: calc(var(--section-gap) / 2);
+
     }
 
     .logo {
       margin: 0 2rem 0 0;
     }
 
-    header .wrapper {
-      display: flex;
-      place-items: flex-start;
-      flex-wrap: wrap;
+
+  }
+
+  .navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-only {
+      display: none;
     }
   }
 </style>

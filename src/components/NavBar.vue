@@ -1,22 +1,25 @@
 <template>
   <nav class="bottom-nav">
     <button class="nav-button" @click="$emit('navigate', 'ministry')">
-      <span class="icon">📖</span>
-      <span class="label">Ministry Tools</span>
+      <BookIcon class="icon" />
+      <span v-if="activeTab === 'ministry'" class="label">Ministry Tools</span>
     </button>
     <button class="nav-button" @click="$emit('navigate', 'study')">
-      <span class="icon">📚</span>
-      <span class="label">Study Dashboard</span>
+      <MenuBookIcon class="icon" />
+      <span v-if="activeTab === 'study'" class="label">Study Dashboard</span>
     </button>
     <button class="nav-button" @click="$emit('navigate', 'goals')">
-      <span class="icon">🎯</span>
-      <span class="label">Goals & Balance</span>
+      <TrophyAwardIcon class="icon" />
+      <span v-if="activeTab === 'goals'" class="label">Goals & Balance</span>
     </button>
   </nav>
 </template>
 
-<script lang="ts" setup>
-  // This component emits a "navigate" event with the section name
+<script setup lang="ts">
+  import BookIcon from 'vue-material-design-icons/Book.vue';
+  import MenuBookIcon from 'vue-material-design-icons/BookOpenVariant.vue';
+  import TrophyAwardIcon from 'vue-material-design-icons/TrophyAward.vue';
+  defineProps<{ activeTab: string }>();
 </script>
 
 <style scoped>
