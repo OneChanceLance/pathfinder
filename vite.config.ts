@@ -12,21 +12,22 @@ export default defineConfig({
     vueDevTools(),
     VitePWA({
       registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt'],
       manifest: {
-        name: 'PathFinder',
-        short_name: 'PathFinder',
+        name: 'Pathfinder App',
+        short_name: 'Pathfinder',
         start_url: '/',
         display: 'standalone',
-        background_color: '#0d1b2a',
-        theme_color: '#f1c40f',
+        background_color: '#ffffff',
+        theme_color: '#054f4fff',
         icons: [
           {
-            src: 'icons/pwa-icon-192x192.png',
+            src: 'icons/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'icons/pwa-icon-512x512.png',
+            src: 'icons/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
