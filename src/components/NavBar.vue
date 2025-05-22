@@ -1,25 +1,26 @@
 <template>
   <nav class="bottom-nav">
     <button class="nav-button" @click="() => { console.log('ministry'); $emit('navigate', 'ministry') }">
-      <BookIcon class="icon" />
-
+      <component :is="activeTab === 'ministry' ? BookIcon : BookOutlineIcon" class="icon" />
     </button>
     <button class="nav-button" @click="() => { console.log('study'); $emit('navigate', 'study') }">
-      <MenuBookIcon class="icon" />
+      <component :is="activeTab === 'study' ? MenuBookIcon : bookOpenVariantOutline" class="icon" />
     </button>
     <button class="nav-button" @click="() => { console.log('goals'); $emit('navigate', 'goals') }">
-      <TrophyAwardIcon class="icon" />
+      <component :is="activeTab === 'goals' ? TrophyIcon : TrophyOutlineIcon" class="icon" />
     </button>
   </nav>
 </template>
 
 <script setup lang="ts">
-  import BookIcon from 'vue-material-design-icons/Book.vue';
-  import MenuBookIcon from 'vue-material-design-icons/BookOpenVariant.vue';
-  import TrophyAwardIcon from 'vue-material-design-icons/TrophyAward.vue';
+  import BookIcon from 'vue-material-design-icons/Briefcase.vue';
+  import BookOutlineIcon from 'vue-material-design-icons/BriefcaseOutline.vue';
+  import MenuBookIcon from 'vue-material-design-icons/bookOpenVariant.vue';
+  import bookOpenVariantOutline from 'vue-material-design-icons/bookOpenVariantOutline.vue';
+  import TrophyIcon from 'vue-material-design-icons/Trophy.vue';
+  import TrophyOutlineIcon from 'vue-material-design-icons/TrophyOutline.vue';
 
   defineProps<{ activeTab: string }>();
-
 </script>
 
 <style scoped>
