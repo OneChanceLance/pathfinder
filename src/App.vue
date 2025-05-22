@@ -6,6 +6,7 @@
   import MinistryGuide from './pages/ministryGuide.vue'
   import GoalsBalance from './pages/GoalsBalance.vue'
   import StudyDashboard from './pages/studyDashboard.vue'
+  import CallList from './pages/CallList.vue'
 
   const loading = ref(true)
   const isPWA = ref(false)
@@ -14,6 +15,7 @@
   const showMinistry = ref(true)
   const showGoals = ref(false)
   const showStudy = ref(false)
+  const showCalls = ref(false)
 
   function handleNavigate(tab: string) {
     console.log(`Selected tab: ${tab}`)
@@ -21,6 +23,7 @@
     showMinistry.value = tab === 'ministry'
     showGoals.value = tab === 'goals'
     showStudy.value = tab === 'study'
+    showCalls.value = tab === 'calls'
   }
 
   onMounted(() => {
@@ -42,6 +45,7 @@
     <MinistryGuide v-if="showMinistry" />
     <StudyDashboard v-if="showStudy" />
     <GoalsBalance v-if="showGoals" />
+    <CallList v-if="showCalls" />
     <NavBar class="navbar" :activeTab="activeTab" @navigate="handleNavigate" />
   </div>
 </template>

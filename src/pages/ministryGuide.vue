@@ -2,9 +2,9 @@
   <div class="ministry-page">
     <h1>Ministry Guide</h1>
     <div class="menu">
-      <button class="card-button" @click="goTo('calls')">
+      <button class="card-button" @click="showCallList = true">
         <DirectionsIcon class="icon" />
-        <span class="text">Call Log</span>
+        <span class="text">Calls</span>
         <span class="arrow">›</span>
       </button>
       <button class="card-button" @click="goTo('scripture')">
@@ -23,6 +23,9 @@
         <span class="arrow">›</span>
       </button>
     </div>
+    <transition name="slide">
+      <CallList v-if="showCallList" class="overlay" @close="showCallList = false" />
+    </transition>
   </div>
 </template>
 
@@ -32,12 +35,17 @@
   import FlashIcon from 'vue-material-design-icons/Flash.vue';
   import MapIcon from 'vue-material-design-icons/Map.vue';
   import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue';
+  import { ref } from 'vue';
+  import CallList from './CallList.vue';
+
 
   const router = useRouter();
 
   function goTo(section: string) {
     router.push({ name: section });
   }
+
+  const showCallList = ref(false);
 </script>
 
 <style scoped>
@@ -102,5 +110,17 @@
   .slide-enter-from,
   .slide-leave-to {
     transform: translateX(100%);
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100dvh;
+    background: white;
+    z-index: 999;
+    padding: 20px;
+    overflow-y: auto;
   }
 </style>

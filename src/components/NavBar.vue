@@ -28,7 +28,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 3rem;
+    height: 4rem;
     background-color: #054f4fff;
     display: flex;
     justify-content: space-around;
@@ -45,7 +45,7 @@
     flex-direction: column;
     align-items: center;
     font-size: 14px;
-    padding: 12px;
+    padding: 2%;
     min-width: 80px;
     flex: 1;
   }
