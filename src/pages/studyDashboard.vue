@@ -2,8 +2,7 @@
   <div class="study-dashboard">
     <h1>Study Dashboard</h1>
     <div class="menu">
-      <button class="card-button" @click="goTo('calls')">
-
+      <button class="card-button" @click="goTo('reading')">
         <div class="titleContainer">
           <Book class="icon" />
           <span class="text">Bible Reading Schedule</span> <span class="arrow">›</span>
@@ -13,25 +12,44 @@
         </div>
       </button>
       <button class="card-button" @click="goTo('Notes')">
-
         <div class="titleContainer">
           <AccountGroupIcon class="icon" />
-          <span class="text">Research</span> <span class="arrow">›</span>
+          <span class="text">Research Topics </span> <span class="arrow">›</span>
         </div>
         <div class="imgBanner">
           <img src="./../assets/research.png" class="banner">
         </div>
       </button>
-
+      <button class="card-button" @click="goTo('Notes')">
+        <div class="titleContainer">
+          <NoteIcon class="icon" />
+          <span class="text">Notes </span> <span class="arrow">›</span>
+        </div>
+        <div class="imgBanner">
+          <img src="./../assets/notes.png" class="banner">
+        </div>
+      </button>
     </div>
+    <transition name="slide">
+      <ReadingSchedule v-if="showReadingSchedule" class="overlay" @close="showReadingSchedule = false" />
+    </transition>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue';
   import Book from 'vue-material-design-icons/BookMultiple.vue';
-  import FlashIcon from 'vue-material-design-icons/Flash.vue';
-  import MapIcon from 'vue-material-design-icons/Map.vue';
   import AccountGroupIcon from 'vue-material-design-icons/Magnify.vue';
+  import NoteIcon from 'vue-material-design-icons/Note.vue';
+  import ReadingSchedule from './ReadingSchedule.vue';
+
+  const showReadingSchedule = ref(false);
+
+  function goTo(section: string) {
+    if (section === 'reading') {
+      showReadingSchedule.value = true;
+    }
+  }
 </script>
 
 <style scoped>
@@ -125,5 +143,27 @@
     object-fit: cover;
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background: white;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+  }
+
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: transform 0.3s ease;
+  }
+
+  .slide-enter-from,
+  .slide-leave-to {
+    transform: translateX(100%);
   }
 </style>
