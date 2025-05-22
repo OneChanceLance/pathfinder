@@ -91,7 +91,7 @@
 
   .card-button .icon {
     font-size: 20px;
-    color: #d4a518;
+    color: #054f4fff;
   }
 
   .card-button .arrow {

@@ -2,15 +2,13 @@
   <nav class="bottom-nav">
     <button class="nav-button" @click="() => { console.log('ministry'); $emit('navigate', 'ministry') }">
       <BookIcon class="icon" />
-      <span v-if="activeTab === 'ministry'" class="label">Ministry Tools</span>
+
     </button>
     <button class="nav-button" @click="() => { console.log('study'); $emit('navigate', 'study') }">
       <MenuBookIcon class="icon" />
-      <span v-if="activeTab === 'study'" class="label">Study Dashboard</span>
     </button>
     <button class="nav-button" @click="() => { console.log('goals'); $emit('navigate', 'goals') }">
       <TrophyAwardIcon class="icon" />
-      <span v-if="activeTab === 'goals'" class="label">Goals & Balance</span>
     </button>
   </nav>
 </template>
@@ -21,9 +19,7 @@
   import TrophyAwardIcon from 'vue-material-design-icons/TrophyAward.vue';
 
   defineProps<{ activeTab: string }>();
-  const emit = defineEmits<{
-    (e: 'navigate', section: string): void;
-  }>();
+
 </script>
 
 <style scoped>
@@ -31,10 +27,11 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #0d1b2a;
+    height: 3rem;
+    background-color: #054f4fff;
     display: flex;
     justify-content: space-around;
-    padding: 10px 0;
+    padding: 0px 0;
     border-top: 1px solid #333;
   }
 
@@ -47,11 +44,15 @@
     flex-direction: column;
     align-items: center;
     font-size: 14px;
+    padding: 12px;
+    min-width: 80px;
+    flex: 1;
   }
 
   .nav-button .icon {
     font-size: 20px;
-    margin-bottom: 4px;
+    margin-bottom: -4px;
+
   }
 
   .nav-button:hover {
