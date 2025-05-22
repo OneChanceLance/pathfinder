@@ -11,7 +11,7 @@
           <img src="./../assets/bible.png" class="banner">
         </div>
       </button>
-      <button class="card-button" @click="goTo('Notes')">
+      <button class="card-button" @click="goTo('research')">
         <div class="titleContainer">
           <AccountGroupIcon class="icon" />
           <span class="text">Research Topics </span> <span class="arrow">›</span>
@@ -20,7 +20,7 @@
           <img src="./../assets/research.png" class="banner">
         </div>
       </button>
-      <button class="card-button" @click="goTo('Notes')">
+      <button class="card-button" @click="goTo('notes')">
         <div class="titleContainer">
           <NoteIcon class="icon" />
           <span class="text">Notes </span> <span class="arrow">›</span>
@@ -33,6 +33,12 @@
     <transition name="slide">
       <ReadingSchedule v-if="showReadingSchedule" class="overlay" @close="showReadingSchedule = false" />
     </transition>
+    <transition name="slide">
+      <ResearchTopics v-if="showResearchTopics" class="overlay" @close="showResearchTopics = false" />
+    </transition>
+    <transition name="slide">
+      <Notes v-if="showNotes" class="overlay" @close="showNotes = false" />
+    </transition>
   </div>
 </template>
 
@@ -42,12 +48,20 @@
   import AccountGroupIcon from 'vue-material-design-icons/Magnify.vue';
   import NoteIcon from 'vue-material-design-icons/Note.vue';
   import ReadingSchedule from './ReadingSchedule.vue';
+  import ResearchTopics from './ResearchTopics.vue';
+  import Notes from './Notes.vue';
 
   const showReadingSchedule = ref(false);
+  const showResearchTopics = ref(false);
+  const showNotes = ref(false);
 
   function goTo(section: string) {
     if (section === 'reading') {
       showReadingSchedule.value = true;
+    } else if (section === 'research') {
+      showResearchTopics.value = true;
+    } else if (section === 'notes') {
+      showNotes.value = true;
     }
   }
 </script>
