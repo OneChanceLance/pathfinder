@@ -126,11 +126,13 @@
     padding: 16px;
     border-radius: 10px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    color: #666;
   }
 
   .call-card h2 {
     margin: 0 0 8px 0;
     font-size: 18px;
+    color: #666;
   }
 
   .last-visited {
