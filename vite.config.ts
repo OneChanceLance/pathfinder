@@ -15,7 +15,7 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt'],
       manifest: {
         name: 'Pathfinder App',
-        short_name: 'Pathfinder',
+        short_name: 'JW Assistant',
         start_url: '/',
         display: 'standalone',
         background_color: '#ffffff',

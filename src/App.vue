@@ -10,8 +10,8 @@
   const loading = ref(true)
   const isPWA = ref(false)
 
-  const activeTab = ref('')
-  const showMinistry = ref(false)
+  const activeTab = ref('ministry')
+  const showMinistry = ref(true)
   const showGoals = ref(false)
   const showStudy = ref(false)
 
