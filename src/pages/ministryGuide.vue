@@ -51,16 +51,6 @@
     overflow-y: auto;
   }
 
-  .close-button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
-  }
-
   .menu {
     display: flex;
     flex-direction: column;
