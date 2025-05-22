@@ -1,14 +1,14 @@
 <template>
   <nav class="bottom-nav">
-    <button class="nav-button" @click="$emit('navigate', 'ministry')">
+    <button class="nav-button" @click="() => { console.log('ministry'); $emit('navigate', 'ministry') }">
       <BookIcon class="icon" />
       <span v-if="activeTab === 'ministry'" class="label">Ministry Tools</span>
     </button>
-    <button class="nav-button" @click="$emit('navigate', 'study')">
+    <button class="nav-button" @click="() => { console.log('study'); $emit('navigate', 'study') }">
       <MenuBookIcon class="icon" />
       <span v-if="activeTab === 'study'" class="label">Study Dashboard</span>
     </button>
-    <button class="nav-button" @click="$emit('navigate', 'goals')">
+    <button class="nav-button" @click="() => { console.log('goals'); $emit('navigate', 'goals') }">
       <TrophyAwardIcon class="icon" />
       <span v-if="activeTab === 'goals'" class="label">Goals & Balance</span>
     </button>
@@ -19,7 +19,11 @@
   import BookIcon from 'vue-material-design-icons/Book.vue';
   import MenuBookIcon from 'vue-material-design-icons/BookOpenVariant.vue';
   import TrophyAwardIcon from 'vue-material-design-icons/TrophyAward.vue';
+
   defineProps<{ activeTab: string }>();
+  const emit = defineEmits<{
+    (e: 'navigate', section: string): void;
+  }>();
 </script>
 
 <style scoped>
@@ -48,5 +52,13 @@
   .nav-button .icon {
     font-size: 20px;
     margin-bottom: 4px;
+  }
+
+  .nav-button:hover {
+    opacity: 0.8;
+  }
+
+  .nav-button:active {
+    transform: scale(0.97);
   }
 </style>

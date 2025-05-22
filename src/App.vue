@@ -3,31 +3,46 @@
   import { ref, onMounted } from 'vue'
 
   import LoadingScreen from './components/LoadingScreen.vue'
+  import MinistryGuide from './pages/ministryGuide.vue'
+  import GoalsBalance from './pages/GoalsBalance.vue'
+  import StudyDashboard from './pages/studyDashboard.vue'
 
   const loading = ref(true)
   const isPWA = ref(false)
+
+  const activeTab = ref('')
+  const showMinistry = ref(false)
+  const showGoals = ref(false)
+  const showStudy = ref(false)
+
+  function handleNavigate(tab: string) {
+    console.log(`Selected tab: ${tab}`)
+    activeTab.value = tab
+    showMinistry.value = tab === 'ministry'
+    showGoals.value = tab === 'goals'
+    showStudy.value = tab === 'study'
+  }
 
   onMounted(() => {
     setTimeout(() => {
       loading.value = false
     }, 1500) // simulate loading delay
 
-    // Detect PWA mode
+    // Detect PWA mode or small screen for testing
     isPWA.value =
       window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as any).standalone === true;
+      (window.navigator as any).standalone === true || 3
+    window.innerWidth <= 500;
   })
 </script>
 
-<template v-if="loading">
-  <LoadingScreen />
-</template>
-<template v-else>
-  <div v-if="isPWA" class="mobile-only">
-    <NavBar class="navbar" />
-  </div>
-  <div v-else class="desktop-layout">
-    <!-- Desktop layout content goes here -->
+<template>
+  <LoadingScreen v-if="loading" />
+  <div v-else class="pwa-wrapper">
+    <MinistryGuide v-if="showMinistry" />
+    <StudyDashboard v-if="showStudy" />
+    <GoalsBalance v-if="showGoals" />
+    <NavBar class="navbar" :activeTab="activeTab" @navigate="handleNavigate" />
   </div>
 </template>
 
@@ -62,8 +77,11 @@
     z-index: 100;
   }
 
-  .mobile-only {
+  .pwa-wrapper {
     display: block;
+    min-height: 100dvh;
+    padding-bottom: 60px;
+    /* prevent content overlap with navbar */
   }
 
   @media (min-width: 768px) {
