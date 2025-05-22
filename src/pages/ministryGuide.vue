@@ -2,15 +2,36 @@
   <div class="ministry-page">
     <h1>Ministry Guide</h1>
     <div class="menu">
-      <button @click="goTo('calls')" class="menu-button">📞 Calls & Return Visits</button>
-      <button @click="goTo('territories')" class="menu-button">🗺️ Territories</button>
-      <button @click="goTo('scripts')" class="menu-button">💬 Conversation Starters</button>
+      <button class="card-button" @click="goTo('calls')">
+        <DirectionsIcon class="icon" />
+        <span class="text">Call Log</span>
+        <span class="arrow">›</span>
+      </button>
+      <button class="card-button" @click="goTo('scripture')">
+        <FlashIcon class="icon" />
+        <span class="text">Scripture Launcher</span>
+        <span class="arrow">›</span>
+      </button>
+      <button class="card-button" @click="goTo('territories')">
+        <MapIcon class="icon" />
+        <span class="text">Territory Map</span>
+        <span class="arrow">›</span>
+      </button>
+      <button class="card-button" @click="goTo('returnvisits')">
+        <AccountGroupIcon class="icon" />
+        <span class="text">Return Visit</span>
+        <span class="arrow">›</span>
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { useRouter } from 'vue-router';
+  import DirectionsIcon from 'vue-material-design-icons/SignDirection.vue';
+  import FlashIcon from 'vue-material-design-icons/Flash.vue';
+  import MapIcon from 'vue-material-design-icons/Map.vue';
+  import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue';
 
   const router = useRouter();
 
@@ -47,19 +68,40 @@
     margin-top: 20px;
   }
 
-  .menu-button {
-    padding: 12px;
+
+  .card-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
     font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    background-color: #2e5aac;
-    color: white;
+    font-weight: 500;
+    color: #1a1a1a;
     cursor: pointer;
     transition: background-color 0.2s ease;
   }
 
-  .menu-button:hover {
-    background-color: #23488a;
+  .card-button:hover {
+    background-color: #f0f0f0;
+  }
+
+  .card-button .icon {
+    font-size: 20px;
+    color: #d4a518;
+  }
+
+  .card-button .arrow {
+    font-size: 18px;
+    color: #999;
+  }
+
+  .card-button .text {
+    flex: 1;
+    text-align: left;
   }
 
   .slide-enter-active,
