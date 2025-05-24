@@ -19,8 +19,7 @@
   import BookOutlineIcon from 'vue-material-design-icons/BriefcaseOutline.vue';
   import MenuBookIcon from 'vue-material-design-icons/bookOpenVariant.vue';
   import bookOpenVariantOutline from 'vue-material-design-icons/bookOpenVariantOutline.vue';
-  import TrophyIcon from 'vue-material-design-icons/Trophy.vue';
-  import TrophyOutlineIcon from 'vue-material-design-icons/TrophyOutline.vue';
+
 
   defineProps<{ activeTab: string }>();
 </script>

@@ -2,7 +2,7 @@
   <div class="ministry-page">
     <h1>Ministry Guide</h1>
     <div class="menu">
-      <button class="card-button" @click="goTo('hours')">
+      <button class="card-button" @click="showHours = true">
         <ClockOutline class="icon" />
         <span class="text">Hours</span>
         <span class="arrow">›</span>
@@ -29,6 +29,9 @@
     <transition name="slide">
       <ScriptureLauncher v-if="showScriptureLauncher" class="overlay" @close="showScriptureLauncher = false" />
     </transition>
+    <transition name="slide">
+      <HoursPage v-if="showHours" class="overlay" @close="showHours = false" />
+    </transition>
   </div>
 </template>
 
@@ -37,11 +40,11 @@
   import DirectionsIcon from 'vue-material-design-icons/SignDirection.vue';
   import FlashIcon from 'vue-material-design-icons/Flash.vue';
   import MapIcon from 'vue-material-design-icons/Map.vue';
-  import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue';
   import ClockOutline from 'vue-material-design-icons/ClockOutline.vue';
   import { ref } from 'vue';
   import CallList from './CallList.vue';
   import ScriptureLauncher from './ScriptureLauncher.vue';
+  import HoursPage from './HoursPage.vue';
 
   const router = useRouter();
 
@@ -51,6 +54,7 @@
 
   const showCallList = ref(false);
   const showScriptureLauncher = ref(false);
+  const showHours = ref(false);
 </script>
 
 <style scoped>

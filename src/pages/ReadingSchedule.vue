@@ -135,54 +135,63 @@
 <style scoped>
   .reading-schedule {
     position: relative;
-    padding: 16px;
-    background: linear-gradient(135deg, #eef2f3, #c9d6ff);
+    padding: 20px;
     min-height: 100vh;
-    box-sizing: border-box;
+    background: linear-gradient(135deg, #f6f9ff, #e0e7ff);
+    font-family: 'Segoe UI', sans-serif;
+    color: #1a1a1a;
   }
 
   .close-button {
     position: absolute;
-    top: 12px;
-    right: 16px;
+    top: 16px;
+    right: 20px;
     background: none;
     border: none;
     font-size: 24px;
-    font-weight: bold;
-    color: #333;
+    color: #5e5e5e;
     cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .close-button:hover {
+    transform: rotate(90deg);
+    color: #ff5f6d;
+  }
+
+  h1 {
+    font-size: 28px;
+    color: #3742fa;
+    text-align: center;
+    margin-top: 30px;
   }
 
   .reading-layout {
-    display: block;
-    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 32px;
   }
 
   .reading-card {
-    flex: 2;
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
+    background: #fff;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(34, 34, 255, 0.05);
+    position: relative;
     border: 2px solid transparent;
     background-clip: padding-box;
-    /* Gradient border and colorful shadow */
-    box-shadow:
-      0 2px 8px 0 rgba(106, 17, 203, 0.15),
-      0 10px 25px rgba(37, 117, 252, 0.12),
-      0 0 0 4px rgba(106, 17, 203, 0.07);
-    position: relative;
-    /* Gradient border using pseudo-element */
     z-index: 0;
   }
 
   .reading-card::before {
     content: "";
     position: absolute;
-    z-index: -1;
     inset: 0;
-    border-radius: 16px;
+    z-index: -1;
+    border-radius: 20px;
     padding: 2px;
-    background: linear-gradient(90deg, #6a11cb, #2575fc, #43e97b 99%);
+    background: linear-gradient(135deg, #4facfe, #43e97b);
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
@@ -191,75 +200,63 @@
   }
 
   .reading-card h2 {
-    margin-bottom: 12px;
-    font-size: 20px;
-    color: #2e5aac;
+    color: #1e90ff;
+    margin-bottom: 8px;
   }
 
   .reading-label {
-    margin-top: 8px;
-    font-weight: bold;
-    color: #555;
-    font-size: 14px;
+    font-weight: 600;
+    color: #6c63ff;
+    margin-top: 12px;
+    font-size: 15px;
   }
 
   .reading-text {
-    font-size: 16px;
-    color: #1a1a1a;
-    margin-bottom: 12px;
+    font-size: 17px;
+    margin-bottom: 14px;
   }
 
   .reading-card button {
-    padding: 10px 20px;
-    margin-top: 16px;
-    border: none;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
+    margin-top: 12px;
+    background: linear-gradient(135deg, #6c63ff, #2980b9);
     color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
     font-weight: bold;
-    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s;
-    box-shadow: 0 2px 6px rgba(106, 17, 203, 0.10);
+    transition: all 0.3s ease;
   }
 
-  .reading-card button:hover:enabled {
-    background: linear-gradient(to right, #5a00b1, #1a5aff);
-    transform: translateY(-2px) scale(1.03);
-  }
-
-  .reading-card button:disabled {
-    background-color: #bbb;
-    cursor: default;
-    opacity: 0.7;
+  .reading-card button:hover {
+    background: linear-gradient(135deg, #5846ff, #2471a3);
+    transform: translateY(-2px);
   }
 
   .streak {
-    margin-top: 18px;
+    margin-top: 16px;
+    color: #2ecc71;
     font-weight: bold;
-    color: #28a745;
-    font-size: 1.1em;
-    letter-spacing: 0.01em;
-    text-shadow: 0 1px 4px #c9f7da;
+    font-size: 1.1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   }
 
   .quote {
-    margin-top: 20px;
-    background: #f0f9ff;
-    border-left: 4px solid #6a11cb;
-    padding: 12px;
-    border-radius: 6px;
+    margin-top: 18px;
+    background: #f0faff;
+    border-left: 5px solid #3498db;
+    padding: 12px 16px;
     font-style: italic;
-    font-size: 14px;
     color: #333;
-    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
   }
 
   .sidebar {
-    margin-top: 24px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   }
 
   .section {
@@ -267,69 +264,43 @@
   }
 
   .section h3 {
-    margin-bottom: 8px;
-    color: #2575fc;
+    color: #6c5ce7;
+    font-size: 18px;
+    margin-bottom: 10px;
   }
 
-  .section ul {
-    list-style: disc;
-    padding-left: 20px;
+  .section ul,
+  .section p {
     font-size: 14px;
-    color: #333;
+    color: #2f3542;
   }
 
   blockquote {
-    font-style: italic;
-    color: #444;
-    border-left: 4px solid #2575fc;
+    border-left: 4px solid #1e90ff;
     padding-left: 12px;
-    margin: 8px 0;
-    font-size: 14px;
-  }
-
-  p,
-  li {
-    color: #333;
+    font-style: italic;
+    color: #555;
   }
 
   @media (max-width: 600px) {
     .reading-layout {
-      display: block;
-      margin-top: 16px;
+      flex-direction: column;
     }
 
-    .reading-card {
+    .reading-card,
+    .sidebar {
       padding: 16px;
     }
 
     .reading-card h2 {
-      font-size: 18px;
+      font-size: 20px;
     }
 
     .reading-text {
       font-size: 15px;
     }
 
-    .reading-card button {
-      width: 100%;
-    }
-
     .quote {
-      font-size: 13px;
-    }
-
-    .sidebar {
-      padding: 14px;
-      margin-top: 18px;
-    }
-
-    .section h3 {
-      font-size: 16px;
-    }
-
-    .section ul,
-    .section p,
-    blockquote {
       font-size: 13px;
     }
 

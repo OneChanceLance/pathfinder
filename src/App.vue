@@ -4,12 +4,13 @@
 
   import LoadingScreen from './components/LoadingScreen.vue'
   import MinistryGuide from './pages/ministryGuide.vue'
-  import GoalsBalance from './pages/GoalsBalance.vue'
+
   import StudyDashboard from './pages/studyDashboard.vue'
   import CallList from './pages/CallList.vue'
   import ScriptureLauncher from './pages/ScriptureLauncher.vue'
 
   import ContentPage from './pages/ContentPage.vue'
+  import HoursPage from './pages/HoursPage.vue'
 
   const loading = ref(true)
   const isPWA = ref(false)
@@ -20,6 +21,7 @@
   const showStudy = ref(false)
   const showCalls = ref(false)
   const showScriptureLauncher = ref(false)
+  const showHours = ref(false)
 
   function handleNavigate(tab: string) {
     console.log(`Selected tab: ${tab}`)
@@ -29,6 +31,7 @@
     showStudy.value = tab === 'study'
     showCalls.value = tab === 'calls'
     showScriptureLauncher.value = tab === 'scripture'
+    showHours.value = tab === 'hours'
   }
 
   onMounted(() => {
@@ -57,6 +60,7 @@
       <StudyDashboard v-if="showStudy" />
       <CallList v-if="showCalls" />
       <ScriptureLauncher v-if="showScriptureLauncher" />
+      <HoursPage v-if="showHours" />
       <NavBar class="navbar" :activeTab="activeTab" @navigate="handleNavigate" />
     </div>
     <div v-else class="desktop-layout">
