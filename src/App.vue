@@ -7,6 +7,9 @@
   import GoalsBalance from './pages/GoalsBalance.vue'
   import StudyDashboard from './pages/studyDashboard.vue'
   import CallList from './pages/CallList.vue'
+  import ScriptureLauncher from './pages/ScriptureLauncher.vue'
+
+  import ContentPage from './pages/ContentPage.vue'
 
   const loading = ref(true)
   const isPWA = ref(false)
@@ -16,6 +19,7 @@
   const showGoals = ref(false)
   const showStudy = ref(false)
   const showCalls = ref(false)
+  const showScriptureLauncher = ref(false)
 
   function handleNavigate(tab: string) {
     console.log(`Selected tab: ${tab}`)
@@ -24,6 +28,7 @@
     showGoals.value = tab === 'goals'
     showStudy.value = tab === 'study'
     showCalls.value = tab === 'calls'
+    showScriptureLauncher.value = tab === 'scripture'
   }
 
   onMounted(() => {
@@ -37,16 +42,26 @@
       (window.navigator as any).standalone === true || 3
     window.innerWidth <= 500;
   })
+
+  const isDesktop = ref(window.innerWidth >= 768)
+  window.addEventListener('resize', () => {
+    isDesktop.value = window.innerWidth >= 768
+  })
 </script>
 
 <template>
   <LoadingScreen v-if="loading" />
-  <div v-else class="pwa-wrapper">
-    <MinistryGuide v-if="showMinistry" />
-    <StudyDashboard v-if="showStudy" />
-    <GoalsBalance v-if="showGoals" />
-    <CallList v-if="showCalls" />
-    <NavBar class="navbar" :activeTab="activeTab" @navigate="handleNavigate" />
+  <div v-else>
+    <div v-if="!isDesktop" class="mobile-layout pwa-wrapper">
+      <MinistryGuide v-if="showMinistry" />
+      <StudyDashboard v-if="showStudy" />
+      <CallList v-if="showCalls" />
+      <ScriptureLauncher v-if="showScriptureLauncher" />
+      <NavBar class="navbar" :activeTab="activeTab" @navigate="handleNavigate" />
+    </div>
+    <div v-else class="desktop-layout">
+      <ContentPage />
+    </div>
   </div>
 </template>
 
@@ -81,6 +96,12 @@
     z-index: 100;
   }
 
+  @media (min-width: 768px) {
+    .navbar {
+      display: none;
+    }
+  }
+
   .pwa-wrapper {
     display: block;
     min-height: 100dvh;
@@ -92,5 +113,11 @@
     .mobile-only {
       display: none;
     }
+  }
+
+  .desktop-layout {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
   }
 </style>

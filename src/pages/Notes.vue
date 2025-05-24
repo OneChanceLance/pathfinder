@@ -89,6 +89,7 @@
         border-radius: 6px;
         margin-bottom: 10px;
         position: relative;
+        color: #666;
     }
 
     .note-list button {

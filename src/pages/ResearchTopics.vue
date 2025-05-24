@@ -88,5 +88,6 @@
     padding: 10px;
     margin-bottom: 8px;
     border-radius: 6px;
+    color: #666;
   }
 </style>

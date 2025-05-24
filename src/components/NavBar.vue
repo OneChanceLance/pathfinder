@@ -6,9 +6,11 @@
     <button class="nav-button" @click="() => { console.log('study'); $emit('navigate', 'study') }">
       <component :is="activeTab === 'study' ? MenuBookIcon : bookOpenVariantOutline" class="icon" />
     </button>
+    <!--
     <button class="nav-button" @click="() => { console.log('goals'); $emit('navigate', 'goals') }">
       <component :is="activeTab === 'goals' ? TrophyIcon : TrophyOutlineIcon" class="icon" />
     </button>
+    -->
   </nav>
 </template>
 
