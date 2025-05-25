@@ -1,7 +1,7 @@
 <template>
   <div class="hours-page">
 
-    <button class="back-button" @click="$emit('close')">← Back</button>
+    <button class="back-button" @click="$emit('close')">Back</button>
 
     <div class="card goal">
 
@@ -32,30 +32,24 @@
             </div>
           </div>
         </div>
+        <div class="summary-item">
+          <div>YTD (Service Year):</div>
+          <div><strong>{{ serviceYearHours }}</strong></div>
+        </div>
       </div>
 
       <hr class="divider" />
-
-      <h2>Enter Hours for Each Day</h2>
       <div class="weekday-header">
         <div v-for="(day, i) in 7" :key="i" class="weekday">{{ getWeekdayName(i) }}</div>
       </div>
-      <div class="calendar-grid">
-        <div class="week-row" v-for="(week, weekIndex) in weeks" :key="weekIndex">
-          <div class="day-input" v-for="(day, i) in week" :key="i" @click="editDay(day)"
-            :class="{ empty: day === null }">
-            <label v-if="day !== null" :for="`day-${day}`">{{ day + 1 }}</label>
-            <input v-if="day !== null" :id="`day-${day}`" v-model.number="dailyHours[day]" type="number" min="0"
-              readonly />
-          </div>
-        </div>
-      </div>
+      <CalendarScreen :year="currentYear" :month="currentMonth" :dailyHours="dailyHours" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { ref, computed, watch } from 'vue'
+  import CalendarScreen from '@/components/CalendarScreen.vue'
 
   // Role selector: publisher, aux, regular
   const selectedRole = ref<'publisher' | 'aux' | 'regular'>('publisher')
@@ -98,6 +92,15 @@
     return Math.max(totalHours.value - 50, 0)
   })
 
+  // NOTE: Full tracking across months will require storing historical month data, not just current month hours.
+  const serviceYearHours = computed(() => {
+    const current = new Date()
+    const serviceYearStart = current.getMonth() < 8 ? new Date(current.getFullYear() - 1, 8, 1) : new Date(current.getFullYear(), 8, 1)
+    // Mock example: only has data for current month
+    // Replace with actual data structure when storing historical data
+    return dailyHours.value.reduce((sum, h) => sum + h, 0)
+  })
+
   function editDay(index: number | null) {
     if (index === null) return
     const input = prompt(`Enter hours for Day ${index + 1}:`, dailyHours.value[index].toString())
@@ -131,7 +134,7 @@
 
 <style scoped>
   .hours-page {
-    background: #5e5e5e;
+    background-color: #5e5e5e;
     min-height: 100vh;
     padding: 2rem;
     font-family: 'Segoe UI', sans-serif;
@@ -212,18 +215,25 @@
   }
 
   .summary {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.25rem;
     margin-top: 1rem;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: bold;
     color: #444;
+    text-align: left;
   }
 
   .summary-item {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .summary-item div:first-child {
+    font-size: 0.9rem;
+    color: #666;
   }
 
   .entry h2 {
@@ -299,12 +309,12 @@
 
   .day-input input {
     border: none;
-    background: #f1f8f4;
+    background: #99b6a6;
     border-radius: 6px;
     text-align: center;
     font-size: 0.95rem;
     font-weight: bold;
-    color: #2e7d32;
+    color: rgb(36, 36, 36);
     width: 40px;
     padding: 0.15rem 0;
     pointer-events: none;
@@ -326,7 +336,7 @@
     margin-bottom: 1rem;
     background: none;
     border: none;
-    color: #2e7d32;
+    color: #ffffff;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;

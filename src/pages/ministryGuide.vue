@@ -127,7 +127,7 @@
     right: 0;
     width: 100%;
     height: 100dvh;
-    background: white;
+    background: rgb(165, 165, 165);
     z-index: 999;
     padding: 20px;
     overflow-y: auto;
