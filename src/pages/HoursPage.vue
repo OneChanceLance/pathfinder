@@ -204,14 +204,14 @@
 
   .card {
     padding: 24px;
-    height: 85%;
+    height: auto;
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 24px;
     backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
-
+    width: 100%;
     gap: 16px;
     color: #0a2533;
   }
@@ -281,11 +281,20 @@
     align-items: center;
     gap: 8px;
     flex-wrap: nowrap;
+    white-space: nowrap;
   }
 
   .option svg {
     width: 24px;
     height: 24px;
+  }
+
+  .option svg {
+    flex-shrink: 0;
+  }
+
+  .nowrap-label {
+    white-space: nowrap;
   }
 
   .option select,
@@ -377,6 +386,7 @@
 
   .flex-input {
     margin-left: auto;
+    flex-shrink: 0;
   }
 
 
