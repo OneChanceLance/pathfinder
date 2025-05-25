@@ -1,36 +1,52 @@
 <template>
-  <div class="ministry-page">
-    <h1>Ministry Guide</h1>
-    <div class="menu">
-      <button class="card-button" @click="showHours = true">
-        <ClockOutline class="icon" />
-        <span class="text">Hours</span>
-        <span class="arrow">›</span>
-      </button>
-      <button class="card-button" @click="showCallList = true">
-        <DirectionsIcon class="icon" />
-        <span class="text">Calls</span>
-        <span class="arrow">›</span>
-      </button>
-      <button class="card-button" @click="showScriptureLauncher = true">
-        <FlashIcon class="icon" />
-        <span class="text">Scripture Topics</span>
-        <span class="arrow">›</span>
-      </button>
-      <button class="card-button" @click="goTo('territories')">
-        <MapIcon class="icon" />
-        <span class="text">Territory Map</span>
-        <span class="arrow">›</span>
-      </button>
+  <div class="page-container">
+    <div v-if="!activePage" class="card">
+      <div class="card-header">
+        <h1>Ministry Guide</h1>
+      </div>
+
+      <transition name="slide">
+        <div class="menu-grid">
+          <button class="menu-card" @click="openPage('hours')">
+            <ClockOutline class="icon" />
+            <span>Hours</span>
+            <svg class="arrow" viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+          <button class="menu-card" @click="openPage('calls')">
+            <DirectionsIcon class="icon" />
+            <span>Calls</span>
+            <svg class="arrow" viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+          <button class="menu-card" @click="openPage('scripture')">
+            <FlashIcon class="icon" />
+            <span>Scripture Topics</span>
+            <svg class="arrow" viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+          <button class="menu-card" @click="goTo('territories')">
+            <MapIcon class="icon" />
+            <span>Territory Map</span>
+            <svg class="arrow" viewBox="0 0 24 24">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </transition>
     </div>
+
     <transition name="slide">
-      <CallList v-if="showCallList" class="overlay" @close="showCallList = false" />
+      <CallList v-if="activePage === 'calls'" class="overlay" @close="closePage" />
     </transition>
     <transition name="slide">
-      <ScriptureLauncher v-if="showScriptureLauncher" class="overlay" @close="showScriptureLauncher = false" />
+      <ScriptureLauncher v-if="activePage === 'scripture'" class="overlay" @close="closePage" />
     </transition>
     <transition name="slide">
-      <HoursPage v-if="showHours" class="overlay" @close="showHours = false" />
+      <HoursPage v-if="activePage === 'hours'" class="overlay" @close="closePage" />
     </transition>
   </div>
 </template>
@@ -52,65 +68,108 @@
     router.push({ name: section });
   }
 
-  const showCallList = ref(false);
-  const showScriptureLauncher = ref(false);
-  const showHours = ref(false);
+  const activePage = ref<string | null>(null);
+
+  function openPage(page: string) {
+    activePage.value = page;
+  }
+
+  function closePage() {
+    activePage.value = null;
+  }
 </script>
 
 <style scoped>
-  .ministry-page {
-    top: 0;
-    left: 0;
-    height: 100dvh;
-    width: 100%;
-    background: white;
-    padding: 20px;
-    overflow-y: auto;
-  }
-
-  .menu {
+  .page-container {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #b2feec 0%, #0ed2f7 100%);
   }
 
+  .card {
+    width: 360px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    backdrop-filter: blur(20px);
+    padding: 24px;
+    box-sizing: border-box;
+  }
 
-  .card-button {
+  .card-header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #0a2533;
+    text-align: center;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .menu-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    padding: 14px 16px;
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #1a1a1a;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background 0.2s;
   }
 
-  .card-button:hover {
-    background-color: #f0f0f0;
+  .menu-card:hover {
+    background: rgba(255, 255, 255, 0.35);
   }
 
-  .card-button .icon {
-    font-size: 20px;
+  .menu-card .icon {
+    width: 24px;
+    height: 24px;
     color: #054f4fff;
+    flex-shrink: 0;
   }
 
-  .card-button .arrow {
-    font-size: 18px;
-    color: #999;
-  }
-
-  .card-button .text {
+  .menu-card span {
     flex: 1;
+    margin: 0 12px;
+    font-size: 16px;
+    color: #0a2533;
     text-align: left;
   }
 
+  .menu-card .arrow {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    color: #0a2533;
+  }
+
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100dvh;
+    z-index: 999;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+
+  /* slide transition */
   .slide-enter-active,
   .slide-leave-active {
     transition: transform 0.3s ease;
@@ -121,15 +180,8 @@
     transform: translateX(100%);
   }
 
-  .overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100dvh;
-    background: rgb(165, 165, 165);
-    z-index: 999;
-    padding: 20px;
-    overflow-y: auto;
+  .slide-enter-to,
+  .slide-leave-from {
+    transform: translateX(0);
   }
 </style>

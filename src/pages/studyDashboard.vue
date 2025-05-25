@@ -31,13 +31,11 @@
       </button>
     </div>
     <transition name="slide">
-      <ReadingSchedule v-if="showReadingSchedule" class="overlay" @close="showReadingSchedule = false" />
-    </transition>
-    <transition name="slide">
-      <ResearchTopics v-if="showResearchTopics" class="overlay" @close="showResearchTopics = false" />
-    </transition>
-    <transition name="slide">
-      <Notes v-if="showNotes" class="overlay" @close="showNotes = false" />
+      <div v-if="showReadingSchedule || showResearchTopics || showNotes">
+        <ReadingSchedule v-if="showReadingSchedule" class="overlay" @close="showReadingSchedule = false" />
+        <ResearchTopics v-else-if="showResearchTopics" class="overlay" @close="showResearchTopics = false" />
+        <Notes v-else-if="showNotes" class="overlay" @close="showNotes = false" />
+      </div>
     </transition>
   </div>
 </template>
@@ -56,12 +54,16 @@
   const showNotes = ref(false);
 
   function goTo(section: string) {
+    showReadingSchedule.value = false
+    showResearchTopics.value = false
+    showNotes.value = false
+
     if (section === 'reading') {
-      showReadingSchedule.value = true;
+      showReadingSchedule.value = true
     } else if (section === 'research') {
-      showResearchTopics.value = true;
+      showResearchTopics.value = true
     } else if (section === 'notes') {
-      showNotes.value = true;
+      showNotes.value = true
     }
   }
 </script>

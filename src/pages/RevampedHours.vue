@@ -3,7 +3,7 @@
     <div class="card">
       <!-- Header -->
       <div class="card-header">
-        <button class="back-button" @click="$emit('close')">
+        <button class="back-button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
             stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6" />
@@ -48,8 +48,8 @@
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
-          <label class="nowrap-label">Monthly Goal (hours)</label>
-          <input type="number" v-model.number="monthlyGoal" class="glass-field flex-input" />
+          <label>Monthly Goal (hours)</label>
+          <input type="number" v-model.number="monthlyGoal" class="glass-field" />
         </div>
       </div>
 
@@ -123,7 +123,7 @@
   const monthlyGoal = ref(0)
 
   // track hours per day keyed by "YYYY-MM-DD"
-  const dailyHours = ref<Record<string, number>>({})
+  const dailyHours = ref < Record < string, number>> ({})
 
   const today = new Date()
   const currentMonth = ref(today.getMonth())
@@ -196,6 +196,7 @@
 
 <style scoped>
   .page-container {
+    display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -203,15 +204,14 @@
   }
 
   .card {
+    width: 360px;
     padding: 24px;
-    height: 85%;
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 24px;
     backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
-
     gap: 16px;
     color: #0a2533;
   }
@@ -268,7 +268,6 @@
 
   .options {
     background: rgba(255, 255, 255, 0.4);
-    border: 2px solid rgb(255 255 255 / 31%);
     border-radius: 12px;
     padding: 12px;
     display: flex;
@@ -280,7 +279,6 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: nowrap;
   }
 
   .option svg {
@@ -305,14 +303,12 @@
   .stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-
     gap: 8px;
     position: relative;
   }
 
   .stat-card {
     background: rgba(255, 255, 255, 0.4);
-    border: 2px solid rgb(255 255 255 / 31%);
     border-radius: 12px;
     padding: 12px;
     display: flex;
@@ -339,9 +335,11 @@
   }
 
   .stat-remaining .ring-icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
     width: 36px;
     height: 36px;
-    color: #219fb8;
   }
 
   .calendar {
@@ -372,12 +370,4 @@
     background-color: rgba(162, 217, 201, 0.6);
     border-radius: 50%;
   }
-
-
-
-  .flex-input {
-    margin-left: auto;
-  }
-
-
 </style>

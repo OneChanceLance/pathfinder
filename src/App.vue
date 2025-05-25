@@ -55,6 +55,7 @@
 <template>
   <LoadingScreen v-if="loading" />
   <div v-else>
+
     <div v-if="!isDesktop" class="mobile-layout pwa-wrapper">
       <MinistryGuide v-if="showMinistry" />
       <StudyDashboard v-if="showStudy" />
