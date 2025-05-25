@@ -1,42 +1,44 @@
 <template>
-  <div class="study-dashboard">
-    <h1>Study Dashboard</h1>
-    <div class="menu">
-      <button class="card-button" @click="goTo('reading')">
-        <div class="titleContainer">
-          <Book class="icon" />
-          <span class="text">Bible Reading Schedule</span> <span class="arrow">›</span>
-        </div>
-        <div class="imgBanner">
-          <img src="./../assets/bible.png" class="banner">
-        </div>
-      </button>
-      <button class="card-button" @click="goTo('research')">
-        <div class="titleContainer">
-          <AccountGroupIcon class="icon" />
-          <span class="text">Research Topics </span> <span class="arrow">›</span>
-        </div>
-        <div class="imgBanner">
-          <img src="./../assets/research.png" class="banner">
-        </div>
-      </button>
-      <button class="card-button" @click="goTo('notes')">
-        <div class="titleContainer">
-          <NoteIcon class="icon" />
-          <span class="text">Notes </span> <span class="arrow">›</span>
-        </div>
-        <div class="imgBanner">
-          <img src="./../assets/notes.png" class="banner">
-        </div>
-      </button>
-    </div>
-    <transition name="slide">
-      <div v-if="showReadingSchedule || showResearchTopics || showNotes">
-        <ReadingSchedule v-if="showReadingSchedule" class="overlay" @close="showReadingSchedule = false" />
-        <ResearchTopics v-else-if="showResearchTopics" class="overlay" @close="showResearchTopics = false" />
-        <Notes v-else-if="showNotes" class="overlay" @close="showNotes = false" />
+  <div class="page-container">
+    <div class="card">
+      <h1>Study Dashboard</h1>
+      <div class="menu-grid">
+        <button class="card-button" @click="goTo('reading')">
+          <div class="titleContainer">
+            <Book class="icon" />
+            <span class="text">Bible Reading Schedule</span> <span class="arrow">›</span>
+          </div>
+          <div class="imgBanner">
+            <img src="./../assets/bible.png" class="banner">
+          </div>
+        </button>
+        <button class="card-button" @click="goTo('research')">
+          <div class="titleContainer">
+            <AccountGroupIcon class="icon" />
+            <span class="text">Research Topics </span> <span class="arrow">›</span>
+          </div>
+          <div class="imgBanner">
+            <img src="./../assets/research.png" class="banner">
+          </div>
+        </button>
+        <button class="card-button" @click="goTo('notes')">
+          <div class="titleContainer">
+            <NoteIcon class="icon" />
+            <span class="text">Notes </span> <span class="arrow">›</span>
+          </div>
+          <div class="imgBanner">
+            <img src="./../assets/notes.png" class="banner">
+          </div>
+        </button>
       </div>
-    </transition>
+      <transition name="slide">
+        <div v-if="showReadingSchedule || showResearchTopics || showNotes">
+          <ReadingSchedule v-if="showReadingSchedule" class="overlay" @close="showReadingSchedule = false" />
+          <ResearchTopics v-else-if="showResearchTopics" class="overlay" @close="showResearchTopics = false" />
+          <Notes v-else-if="showNotes" class="overlay" @close="showNotes = false" />
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -69,87 +71,86 @@
 </script>
 
 <style scoped>
-  .study-dashboard {
-    top: 0;
-    left: 0;
-    height: 100dvh;
-    width: 100%;
-    background: white;
-    overflow-y: auto;
-    padding: 20px;
-  }
-
-  .menu {
+  .page-container {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 10px 20px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #b2feec 0%, #0ed2f7 100%);
   }
 
+  .card {
+    width: 400px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    backdrop-filter: blur(20px);
+    padding: 24px;
+    box-sizing: border-box;
+  }
+
+  .card h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #0a2533;
+    text-align: center;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
 
   .card-button {
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #1a1a1a;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
     display: flex;
     flex-direction: column;
-
-    flex: 1;
-    overflow: hidden;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: background 0.2s;
   }
 
   .card-button:hover {
-    background-color: #f0f0f0;
-  }
-
-  .card-button .icon {
-    font-size: 20px;
-    color: #054f4fff;
-  }
-
-  .card-button .arrow {
-    font-size: 18px;
-    color: #999;
-  }
-
-  .card-button .text {
-    flex: 1;
-    text-align: left;
+    background: rgba(255, 255, 255, 0.35);
   }
 
   .titleContainer {
     display: flex;
-    font-size: 16px;
-    padding: 14px 16px;
-    font-weight: 500;
-    color: #1a1a1a;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    width: 100%;
+    align-items: center;
     gap: 8px;
-    align-items: center;
-    justify-content: space-between;
   }
 
-  .titleContainer span {
-    display: flex;
-    align-items: center;
-
+  .card-button .icon {
+    width: 24px;
+    height: 24px;
+    color: #054f4fff;
+    flex-shrink: 0;
   }
 
-  button {
-    padding: 0;
+  .card-button .text {
+    flex: 1;
+    font-size: 16px;
+    color: #0a2533;
+    text-align: left;
+  }
+
+  .card-button .arrow {
+    font-size: 18px;
+    color: #0a2533;
+    flex-shrink: 0;
   }
 
   .imgBanner {
+    margin-top: 12px;
     width: 100%;
-
   }
 
   .imgBanner img {
@@ -157,8 +158,8 @@
     width: 100%;
     height: 190px;
     object-fit: cover;
-    border-bottom-right-radius: 12px;
-    border-bottom-left-radius: 12px;
+    border-radius: 12px;
+
   }
 
   .overlay {
@@ -167,7 +168,8 @@
     left: 0;
     width: 100%;
     height: 100dvh;
-    background: white;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     z-index: 1000;
     overflow-y: auto;
     padding: 20px;

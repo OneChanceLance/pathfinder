@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="page-container" @click.self="$emit('close')">
     <div class="card">
       <!-- Header -->
       <div class="card-header">

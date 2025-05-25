@@ -85,7 +85,8 @@
     justify-content: center;
     align-items: flex-start;
     padding: 40px 20px;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     background: linear-gradient(135deg, #b2feec 0%, #0ed2f7 100%);
   }
 
@@ -160,10 +161,10 @@
     top: 0;
     right: 0;
     width: 100%;
-    height: 100dvh;
+    height: 100vh;
     z-index: 999;
     padding: 20px;
-    overflow-y: auto;
+    overflow: hidden;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
   }
