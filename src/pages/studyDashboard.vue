@@ -78,64 +78,6 @@
     margin-top: 24px;
   }
 
-  .card-button {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: stretch;
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .card-button:hover {
-    background: rgba(255, 255, 255, 0.35);
-  }
-
-  .titleContainer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .card-button .icon {
-    width: 24px;
-    height: 24px;
-    color: #054f4fff;
-    flex-shrink: 0;
-  }
-
-  .card-button .text {
-    flex: 1;
-    font-size: 16px;
-    color: #0a2533;
-    text-align: left;
-  }
-
-  .card-button .arrow {
-    font-size: 18px;
-    color: #0a2533;
-    flex-shrink: 0;
-  }
-
-  .imgBanner {
-    margin-top: 12px;
-    width: 100%;
-  }
-
-  .imgBanner img {
-    display: block;
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
-    border-radius: 12px;
-
-  }
-
   .overlay {
     position: fixed;
     top: 0;
