@@ -3,33 +3,9 @@
     <div class="card">
       <h1>Study Dashboard</h1>
       <div class="menu-grid">
-        <button class="card-button" @click="goTo('reading')">
-          <div class="titleContainer">
-            <Book class="icon" />
-            <span class="text">Bible Reading Schedule</span> <span class="arrow">›</span>
-          </div>
-          <div class="imgBanner">
-            <img src="./../assets/bible.png" class="banner">
-          </div>
-        </button>
-        <button class="card-button" @click="goTo('research')">
-          <div class="titleContainer">
-            <AccountGroupIcon class="icon" />
-            <span class="text">Research Topics </span> <span class="arrow">›</span>
-          </div>
-          <div class="imgBanner">
-            <img src="./../assets/research.png" class="banner">
-          </div>
-        </button>
-        <button class="card-button" @click="goTo('notes')">
-          <div class="titleContainer">
-            <NoteIcon class="icon" />
-            <span class="text">Notes </span> <span class="arrow">›</span>
-          </div>
-          <div class="imgBanner">
-            <img src="./../assets/notes.png" class="banner">
-          </div>
-        </button>
+        <StudyCard title="Bible Reading Schedule" variant="Bible" @click="goTo('reading')" />
+        <StudyCard title="Research Topics" variant="Research" @click="goTo('research')" />
+        <StudyCard title="Notes" variant="Notes" @click="goTo('notes')" />
       </div>
       <transition name="slide">
         <div v-if="showReadingSchedule || showResearchTopics || showNotes">
@@ -44,9 +20,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import Book from 'vue-material-design-icons/BookMultiple.vue';
-  import AccountGroupIcon from 'vue-material-design-icons/Magnify.vue';
-  import NoteIcon from 'vue-material-design-icons/Note.vue';
+  import StudyCard from '@/components/StudyCard.vue';
   import ReadingSchedule from './ReadingSchedule.vue';
   import ResearchTopics from './ResearchTopics.vue';
   import Notes from './Notes.vue';
