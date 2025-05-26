@@ -9,7 +9,7 @@
         <div class="menu-grid">
           <button class="menu-card" @click="openPage('hours')">
             <ClockOutline class="icon" />
-            <span>Hours</span>
+            <span> Hours</span>
             <svg class="arrow" viewBox="0 0 24 24">
               <path d="M9 18l6-6-6-6" />
             </svg>
@@ -28,7 +28,7 @@
               <path d="M9 18l6-6-6-6" />
             </svg>
           </button>
-          <button class="menu-card" @click="goTo('territories')">
+          <button class="menu-card" @click="openPage('territories')">
             <MapIcon class="icon" />
             <span>Territory Map</span>
             <svg class="arrow" viewBox="0 0 24 24">
@@ -69,7 +69,6 @@
   }
 
   const activePage = ref<string | null>(null);
-
   function openPage(page: string) {
     activePage.value = page;
   }

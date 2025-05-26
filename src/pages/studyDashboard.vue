@@ -2,19 +2,24 @@
   <div class="page-container">
     <div class="card">
       <h1>Study Dashboard</h1>
-      <div class="menu-grid">
-        <StudyCard title="Bible Reading Schedule" variant="Bible" @click="goTo('reading')" />
-        <StudyCard title="Research Topics" variant="Research" @click="goTo('research')" />
-        <StudyCard title="Notes" variant="Notes" @click="goTo('notes')" />
-      </div>
       <transition name="slide">
-        <div v-if="showReadingSchedule || showResearchTopics || showNotes">
-          <ReadingSchedule v-if="showReadingSchedule" class="overlay" @close="showReadingSchedule = false" />
-          <ResearchTopics v-else-if="showResearchTopics" class="overlay" @close="showResearchTopics = false" />
-          <Notes v-else-if="showNotes" class="overlay" @close="showNotes = false" />
+        <div v-if="!activePage" class="menu-grid">
+          <StudyCard title="Bible Reading Schedule" variant="Bible" @click="openPage('reading')" />
+          <StudyCard title="Research Topics" variant="Research" @click="openPage('research')" />
+          <StudyCard title="Notes" variant="Notes" @click="openPage('notes')" />
         </div>
       </transition>
     </div>
+    <transition name="slide">
+      <ReadingSchedule v-if="activePage === 'reading'" class="overlay" @close="closePage" />
+    </transition>
+    <transition name="slide">
+      <ResearchTopics v-if="activePage === 'research'" class="overlay" @close="closePage" />
+    </transition>
+    <transition name="slide">
+      <Notes v-if="activePage === 'notes'" class="overlay" @close="closePage" />
+    </transition>
+
   </div>
 </template>
 
@@ -25,22 +30,14 @@
   import ResearchTopics from './ResearchTopics.vue';
   import Notes from './Notes.vue';
 
-  const showReadingSchedule = ref(false);
-  const showResearchTopics = ref(false);
-  const showNotes = ref(false);
 
-  function goTo(section: string) {
-    showReadingSchedule.value = false
-    showResearchTopics.value = false
-    showNotes.value = false
+  const activePage = ref<string | null>(null);
+  function openPage(page: string) {
+    activePage.value = page;
+  }
 
-    if (section === 'reading') {
-      showReadingSchedule.value = true
-    } else if (section === 'research') {
-      showResearchTopics.value = true
-    } else if (section === 'notes') {
-      showNotes.value = true
-    }
+  function closePage() {
+    activePage.value = null;
   }
 </script>
 
@@ -91,6 +88,7 @@
     padding: 20px;
   }
 
+  /* slide transition */
   .slide-enter-active,
   .slide-leave-active {
     transition: transform 0.3s ease;
@@ -99,5 +97,10 @@
   .slide-enter-from,
   .slide-leave-to {
     transform: translateX(100%);
+  }
+
+  .slide-enter-to,
+  .slide-leave-from {
+    transform: translateX(0);
   }
 </style>
