@@ -1,7 +1,5 @@
 <template>
-  <div class="call-list-page">
-    <button class="close-button" @click="$emit('close')">✕</button>
-    <h1>Call List</h1>
+  <OverlayCard title="Calls">
     <button class="toggle-form-button" @click="showForm = !showForm">
       {{ showForm ? 'Cancel' : 'Create Call' }}
     </button>
@@ -18,11 +16,14 @@
         <p class="last-visited">Last Visited: {{ call.lastVisited }}</p>
       </div>
     </div>
-  </div>
+  </OverlayCard>
 </template>
 
 <script setup lang="ts">
   import { reactive, ref } from 'vue';
+
+  import OverlayCard from '@/components/OverlayCard.vue';
+
   const calls = ref(
     JSON.parse(localStorage.getItem('calls') || '[]')
   );

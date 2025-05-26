@@ -12,7 +12,8 @@
             <MinistryStat title="Service Year" :data=totalHours />
           </MinistryCard>
           <MinistryCard title="Calls" @click="openPage('calls')">
-            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+            <RecentCall firstName="John" lastName="Doe" />
+            <RecentCall firstName="Jane" lastName="Doe" />
           </MinistryCard>
           <MinistryCard title="Scriptures" @click="openPage('scripture')">
             <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
@@ -41,7 +42,7 @@
 
   import MinistryCard from '@/components/Ministry/MinistryCard.vue';
   import MinistryStat from '@/components/Ministry/MinistryStat.vue';
-
+  import RecentCall from '@/components/Ministry/RecentCall.vue';
   import CallList from './CallList.vue';
   import ScriptureLauncher from './ScriptureLauncher.vue';
   import HoursPage from './HoursPage.vue';

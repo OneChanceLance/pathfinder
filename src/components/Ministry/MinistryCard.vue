@@ -81,6 +81,7 @@
   }
 
   .details-row {
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     text-align: left;
