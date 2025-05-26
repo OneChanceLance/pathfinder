@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <div class="card">
+    <div v-if="!activePage" class="card">
       <h1>Study Dashboard</h1>
       <transition name="slide">
         <div v-if="!activePage" class="menu-grid">
@@ -48,7 +48,7 @@
     align-items: flex-start;
     padding: 10px 20px;
     min-height: 100vh;
-    background: linear-gradient(135deg, #b2feec 0%, #0ed2f7 100%);
+
   }
 
   .card {

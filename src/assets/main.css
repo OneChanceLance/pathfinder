@@ -3,7 +3,7 @@
 #app {
   max-width: 1280px;
   font-weight: normal;
-  background-color: grey;
+  background: linear-gradient(135deg, #b2feec 0%, #0ed2f7 100%);
   color: rgb(36, 36, 36);
 }
 

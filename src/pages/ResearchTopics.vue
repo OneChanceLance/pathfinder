@@ -1,23 +1,13 @@
 <template>
-  <div class="research-topics-wrapper">
-    <div class="research-topics">
-      <button class="close-button" @click="$emit('close')">✕</button>
-      <h1>Research Topics</h1>
-
-      <div class="search-bar">
-        <input v-model="searchQuery" placeholder="Search topics..." />
-      </div>
-
-      <div class="new-topic">
-        <input v-model="newTopic" placeholder="Enter new topic" @keyup.enter="addTopic" />
-        <button @click="addTopic">Add Topic</button>
-      </div>
-
-      <ul class="topic-list">
-        <ResearchTopicCard v-for="(topic, index) in filteredTopics" :key="index" :title="topic"
-          @request-delete="deleteTopic" @open="openTopic" />
-      </ul>
+  <OverlayCard title="Research Topics">
+    <div class="new-topic">
+      <input v-model="newTopic" placeholder="Enter new topic" @keyup.enter="addTopic" />
+      <button @click="addTopic">Add Topic</button>
     </div>
+    <ul class="topic-list">
+      <ResearchCard v-for="(topic, index) in filteredTopics" :key="index" :title="topic" @request-delete="deleteTopic"
+        @open="openTopic" />
+    </ul>
 
     <transition name="slide-overlay">
       <div v-if="showOverlay" class="overlay">
@@ -28,13 +18,13 @@
         </div>
       </div>
     </transition>
-  </div>
+  </OverlayCard>
 </template>
 
 <script setup lang="ts">
-  defineEmits(['close']);
   import { ref, onMounted, computed } from 'vue'
-  import ResearchTopicCard from '@/components/ResearchTopicCard.vue';
+  import OverlayCard from '@/components/OverlayCard.vue';
+  import ResearchCard from '@/components/Research/ResearchCard.vue';
 
   const topics = ref<string[]>([]);
   const newTopic = ref('');
@@ -48,6 +38,11 @@
 
   const activeTopic = ref<string | null>(null)
   const showOverlay = ref(false)
+
+
+
+
+
 
   function loadTopics() {
     const stored = localStorage.getItem('researchTopics');
@@ -87,50 +82,17 @@
 </script>
 
 <style scoped>
-  .research-topics-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #fff;
-    z-index: 999;
-    overflow: auto;
-  }
-
-  .research-topics {
-    min-height: 100%;
-
-    box-sizing: border-box;
-    position: relative;
-  }
-
-  .close-button {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  .search-bar {
-    margin-bottom: 12px;
-  }
 
   .search-bar input {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
     width: 100%;
     padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
   }
 
-  .new-topic {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
+
 
   .new-topic input {
     flex: 1;
@@ -148,50 +110,11 @@
     cursor: pointer;
   }
 
-  .topic-list {
-    list-style: none;
-    padding: 0;
-  }
 
-  .topic-list li {
-    background: #f4f4f4;
-    padding: 10px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-    color: #666;
-  }
-
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .overlay-content {
-    background: white;
-    padding: 24px;
-    border-radius: 12px;
-    max-width: 600px;
-    width: 90%;
-    position: relative;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-  }
-
-  .overlay-content .close-button {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
+  ul {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
   }
 
   .slide-overlay-enter-active,

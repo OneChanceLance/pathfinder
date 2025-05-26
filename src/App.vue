@@ -59,9 +59,6 @@
     <div v-if="!isDesktop" class="mobile-layout pwa-wrapper">
       <MinistryGuide v-if="showMinistry" />
       <StudyDashboard v-if="showStudy" />
-      <CallList v-if="showCalls" />
-      <ScriptureLauncher v-if="showScriptureLauncher" />
-      <HoursPage v-if="showHours" />
       <NavBar class="navbar" :activeTab="activeTab" @navigate="handleNavigate" />
     </div>
     <div v-else class="desktop-layout">
@@ -72,7 +69,7 @@
 
 <style scoped>
   header {
-    line-height: 1.5;
+    line-height: 1;
   }
 
   .logo {

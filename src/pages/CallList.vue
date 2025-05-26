@@ -16,7 +16,6 @@
         <h2>{{ call.name }}</h2>
         <p>{{ call.address }}</p>
         <p class="last-visited">Last Visited: {{ call.lastVisited }}</p>
-        <button class="delete-button" @click="deleteCall(call.id)">Delete</button>
       </div>
     </div>
   </div>
@@ -24,14 +23,9 @@
 
 <script setup lang="ts">
   import { reactive, ref } from 'vue';
-
-  const emit = defineEmits(['close']);
-
   const calls = ref(
     JSON.parse(localStorage.getItem('calls') || '[]')
   );
-  defineProps<{ activeTab: string }>();
-
   const newCall = reactive({
     name: '',
     address: '',
@@ -56,13 +50,6 @@
     newCall.name = '';
     newCall.address = '';
     newCall.lastVisited = '';
-  }
-  function deleteCall(id: number) {
-    const confirmDelete = window.confirm('Are you sure you want to delete this call?');
-    if (!confirmDelete) return;
-
-    calls.value = calls.value.filter(call => call.id !== id);
-    localStorage.setItem('calls', JSON.stringify(calls.value));
   }
 </script>
 

@@ -113,17 +113,14 @@
     flex-shrink: 0;
   }
 
-  .imgBanner {
-    margin-top: 12px;
-    width: 100%;
-  }
-
   .imgBanner img {
     display: block;
     width: 100%;
     height: 190px;
     object-fit: cover;
-    border-radius: 12px;
-
+    margin-top: 12px;
+    border-radius: 10px;
+    opacity: 0.9;
   }
+
 </style>

@@ -1,124 +1,95 @@
 <template>
-  <div class="page-container" @click.self="$emit('close')">
-    <div class="card">
-      <!-- Header -->
-      <div class="card-header">
-        <button class="back-button" @click="$emit('close')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-          <span>Back</span>
-        </button>
-
+  <OverlayCard title="Monthly Report">
+    <div class="options">
+      <div class="option">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
+          <circle cx="12" cy="7" r="4" />
+          <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
+        </svg>
+        <select v-model="selectedRole" class="glass-field">
+          <option value="Publisher (No Requirement)">Publisher</option>
+          <option value="Auxiliary Pioneer">Auxiliary Pioneer</option>
+          <option value="Regular Pioneer">Regular Pioneer</option>
+        </select>
       </div>
-
-      <!-- Title -->
-      <div class="card-title">
-        <div class="title-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-          </svg>
-        </div>
-        <h1>Monthly Report</h1>
+      <div class="option">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+        <label class="nowrap-label">Monthly Goal (hours)</label>
+        <input type="number" v-model.number="monthlyGoal" class="glass-field flex-input" />
       </div>
-
-      <!-- Settings -->
-      <div class="options">
-        <div class="option">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
-            <circle cx="12" cy="7" r="4" />
-            <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
-          </svg>
-          <select v-model="selectedRole" class="glass-field">
-            <option value="Publisher (No Requirement)">Publisher (No Requirement)</option>
-            <option value="Auxiliary Pioneer">Auxiliary Pioneer</option>
-            <option value="Regular Pioneer">Regular Pioneer</option>
-          </select>
-        </div>
-        <div class="option">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
-          <label class="nowrap-label">Monthly Goal (hours)</label>
-          <input type="number" v-model.number="monthlyGoal" class="glass-field flex-input" />
-        </div>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats">
-        <div class="stat-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
-            <circle cx="12" cy="7" r="4" />
-            <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
-          </svg>
-          <div class="label">Total Hours<br />So Far</div>
-          <div class="value">{{ totalHours }}</div>
-        </div>
-        <div class="stat-card stat-remaining">
-          <svg viewBox="0 0 36 36" class="ring-icon">
-            <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="4" stroke-opacity="0.2" />
-            <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="4"
-              :stroke-dasharray="`${(remainingHours / monthlyGoal) * 100} 100`" transform="rotate(-90 18 18)" />
-          </svg>
-          <div class="label">Remaining</div>
-          <div class="value">{{ remainingHours }}</div>
-        </div>
-        <div class="stat-card">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-          </svg>
-          <div class="label">YTD<br />(Service Year)</div>
-          <div class="value">{{ ytdHours }}</div>
-        </div>
-      </div>
-
-      <!-- Calendar -->
-      <v-sheet class="pa-4 rounded-xl calendar-bg">
-        <v-row align="center" justify="space-between" class="mb-2">
-          <v-btn icon @click="prevMonth"><v-icon>mdi-chevron-left</v-icon></v-btn>
-          <div class="text-subtitle-1 font-weight-medium">
-            {{ currentYear }} - {{ String(currentMonth + 1).padStart(2, '0') }}
-          </div>
-          <v-btn icon @click="nextMonth"><v-icon>mdi-chevron-right</v-icon></v-btn>
-        </v-row>
-        <v-row dense>
-          <v-col v-for="(day, idx) in days" :key="idx" class="text-center text-caption">
-            {{ day }}
-          </v-col>
-        </v-row>
-        <v-row dense v-for="(week, wIdx) in calendar" :key="wIdx">
-          <v-col v-for="(date, dIdx) in week" :key="dIdx" class="text-center">
-            <div class="day-cell"
-              :class="{ 'filled-day': date && dailyHours[`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`] > 0 }"
-              @click="onDayClick(date)">
-              <span>{{ date }}</span>
-            </div>
-          </v-col>
-        </v-row>
-      </v-sheet>
     </div>
-  </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
+          <circle cx="12" cy="7" r="4" />
+          <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
+        </svg>
+        <div class="label">Total Hours<br />So Far</div>
+        <div class="value">{{ totalHours }}</div>
+      </div>
+      <div class="stat-card stat-remaining">
+        <svg viewBox="0 0 36 36" class="ring-icon">
+          <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="4" stroke-opacity="0.2" />
+          <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="4"
+            :stroke-dasharray="`${(remainingHours / monthlyGoal) * 100} 100`" transform="rotate(-90 18 18)" />
+        </svg>
+        <div class="label">Remaining</div>
+        <div class="value">{{ remainingHours }}</div>
+      </div>
+      <div class="stat-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        <div class="label">YTD<br />(Service Year)</div>
+        <div class="value">{{ ytdHours }}</div>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <v-sheet class="pa-4 rounded-xl calendar-bg">
+      <v-row align="center" justify="space-between" class="mb-2">
+        <v-btn icon @click="prevMonth"><v-icon>mdi-chevron-left</v-icon></v-btn>
+        <div class="text-subtitle-1 font-weight-medium">
+          {{ currentYear }} - {{ String(currentMonth + 1).padStart(2, '0') }}
+        </div>
+        <v-btn icon @click="nextMonth"><v-icon>mdi-chevron-right</v-icon></v-btn>
+      </v-row>
+      <v-row dense>
+        <v-col v-for="(day, idx) in days" :key="idx" class="text-center text-caption">
+          {{ day }}
+        </v-col>
+      </v-row>
+      <v-row dense v-for="(week, wIdx) in calendar" :key="wIdx">
+        <v-col v-for="(date, dIdx) in week" :key="dIdx" class="text-center">
+          <div class="day-cell"
+            :class="{ 'filled-day': date && dailyHours[`${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`] > 0 }"
+            @click="onDayClick(date)">
+            <span>{{ date }}</span>
+          </div>
+        </v-col>
+      </v-row>
+    </v-sheet>
+  </OverlayCard>
 </template>
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-
-  const roles = ['Publisher (No Requirement)', 'Auxiliary Pioneer', 'Regular Pioneer']
+  import OverlayCard from '@/components/OverlayCard.vue'
+  const roles = ['Publisher', 'Auxiliary Pioneer', 'Regular Pioneer']
   const selectedRole = ref(roles[0])
   const monthlyGoal = ref(0)
 
@@ -195,76 +166,6 @@
 </script>
 
 <style scoped>
-  .page-container {
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #b2feec 0%, #0ed2f7 100%);
-  }
-
-  .card {
-    padding: 24px;
-    height: auto;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 24px;
-    backdrop-filter: blur(20px);
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 16px;
-    color: #0a2533;
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .back-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: none;
-    border: none;
-    color: inherit;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  .back-button svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .card-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .title-icon {
-    width: 36px;
-    height: 36px;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .title-icon svg {
-    width: 20px;
-    height: 20px;
-  }
 
   .options {
     background: rgba(255, 255, 255, 0.4);
@@ -287,9 +188,6 @@
   .option svg {
     width: 24px;
     height: 24px;
-  }
-
-  .option svg {
     flex-shrink: 0;
   }
 

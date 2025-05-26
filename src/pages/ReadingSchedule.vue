@@ -1,53 +1,22 @@
 <template>
-  <div class="reading-schedule">
-    <button class="close-button" @click="$emit('close')">✕</button>
-    <h1>Today's Bible Reading</h1>
-    <div class="reading-layout">
-      <div class="reading-card">
-        <h2>{{ today.date }}</h2>
-        <p class="reading-label">Reading:</p>
-        <p class="reading-text">{{ today.reading }}</p>
-        <button @click="toggleCompleted">
-          {{ today.checked ? 'Completed' : 'Mark as Completed' }}
-        </button>
-        <p class="streak">🔥 Streak: {{ streak }} day{{ streak === 1 ? '' : 's' }}</p>
-        <div class="quote">
-          <strong>“</strong> The one reading aloud is happy. — Revelation 1:3
-        </div>
-      </div>
-      <div class="sidebar">
-        <div class="section">
-          <h3>Related Scriptures</h3>
-          <ul>
-            <li><strong>Genesis 1:1</strong> — “In the beginning God created the heavens and the earth.”</li>
-            <li><strong>Psalm 19:1</strong> — “The heavens are declaring the glory of God.”</li>
-            <li><strong>Hebrews 11:3</strong> — “By faith we understand that the systems of things were put in order at
-              God's command.”</li>
-          </ul>
-        </div>
-        <div class="section">
-          <h3>Spiritual Focus Thought</h3>
-          <p>Jehovah is a God of order. As you read today, reflect on how his creation shows wisdom, structure, and
-            purpose.</p>
-        </div>
-        <div class="section">
-          <h3>Did You Know?</h3>
-          <p>The Hebrew word for “create” used in Genesis 1:1 (baraʼ) is used exclusively with God as the subject,
-            highlighting his unique creative power.</p>
-        </div>
-        <div class="section">
-          <h3>Encouraging Verse</h3>
-          <blockquote>“Your word is a lamp to my foot, and a light for my path.” — Psalm 119:105</blockquote>
-        </div>
-      </div>
-    </div>
-  </div>
+  <OverlayCard title="Reading Schedule">
+    <StandardCard>
+      <h2>{{ today.date }}</h2>
+      <h3>{{ today.reading }}</h3>
+      <button @click="toggleCompleted">
+        {{ today.checked ? 'Completed' : 'Mark as Completed' }}
+      </button>
+    </StandardCard>
+
+
+  </OverlayCard>
 </template>
 
 <script setup lang="ts">
   import { ref, onMounted } from 'vue';
+  import OverlayCard from '@/components/OverlayCard.vue';
+  import StandardCard from '@/components/ReadingSchedule/StandardCard.vue';
 
-  defineEmits(['close']);
 
   interface ReadingDay {
     date: string;
@@ -133,45 +102,6 @@
 </script>
 
 <style scoped>
-  .reading-schedule {
-    position: relative;
-    padding: 20px;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f6f9ff, #e0e7ff);
-    font-family: 'Segoe UI', sans-serif;
-    color: #1a1a1a;
-  }
-
-  .close-button {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #5e5e5e;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-
-  .close-button:hover {
-    transform: rotate(90deg);
-    color: #ff5f6d;
-  }
-
-  h1 {
-    font-size: 28px;
-    color: #3742fa;
-    text-align: center;
-    margin-top: 30px;
-  }
-
-  .reading-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    margin-top: 32px;
-  }
 
   .reading-card {
     background: #fff;
@@ -200,13 +130,13 @@
   }
 
   .reading-card h2 {
-    color: #1e90ff;
+
     margin-bottom: 8px;
   }
 
   .reading-label {
-    font-weight: 600;
-    color: #6c63ff;
+
+
     margin-top: 12px;
     font-size: 15px;
   }

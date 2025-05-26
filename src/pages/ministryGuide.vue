@@ -6,35 +6,17 @@
       </div>
 
       <transition name="slide">
-        <div class="menu-grid">
-          <button class="menu-card" @click="openPage('hours')">
-            <ClockOutline class="icon" />
-            <span> Hours</span>
-            <svg class="arrow" viewBox="0 0 24 24">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
-          <button class="menu-card" @click="openPage('calls')">
-            <DirectionsIcon class="icon" />
-            <span>Calls</span>
-            <svg class="arrow" viewBox="0 0 24 24">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
-          <button class="menu-card" @click="openPage('scripture')">
-            <FlashIcon class="icon" />
-            <span>Scripture Topics</span>
-            <svg class="arrow" viewBox="0 0 24 24">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
-          <button class="menu-card" @click="openPage('territories')">
-            <MapIcon class="icon" />
-            <span>Territory Map</span>
-            <svg class="arrow" viewBox="0 0 24 24">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
+        <div v-if="!activePage" class="menu-grid">
+          <MinistryCard title="Hours" @click="openPage('hours')">
+            <MinistryStat title="This Month" :data=totalHours />
+            <MinistryStat title="Service Year" :data=totalHours />
+          </MinistryCard>
+          <MinistryCard title="Calls" @click="openPage('calls')">
+            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+          </MinistryCard>
+          <MinistryCard title="Scriptures" @click="openPage('scripture')">
+            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+          </MinistryCard>
         </div>
       </transition>
     </div>
@@ -48,25 +30,23 @@
     <transition name="slide">
       <HoursPage v-if="activePage === 'hours'" class="overlay" @close="closePage" />
     </transition>
+    <transition name="slide">
+      <TerritoriesPage v-if="activePage === 'territories'" class="overlay" @close="closePage" />
+    </transition>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { useRouter } from 'vue-router';
-  import DirectionsIcon from 'vue-material-design-icons/SignDirection.vue';
-  import FlashIcon from 'vue-material-design-icons/Flash.vue';
-  import MapIcon from 'vue-material-design-icons/Map.vue';
-  import ClockOutline from 'vue-material-design-icons/ClockOutline.vue';
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue'
+
+  import MinistryCard from '@/components/Ministry/MinistryCard.vue';
+  import MinistryStat from '@/components/Ministry/MinistryStat.vue';
+
   import CallList from './CallList.vue';
   import ScriptureLauncher from './ScriptureLauncher.vue';
   import HoursPage from './HoursPage.vue';
+  import TerritoriesPage from './TerritoriesPage.vue';
 
-  const router = useRouter();
-
-  function goTo(section: string) {
-    router.push({ name: section });
-  }
 
   const activePage = ref<string | null>(null);
   function openPage(page: string) {
@@ -76,6 +56,23 @@
   function closePage() {
     activePage.value = null;
   }
+
+  const dailyHours = ref<Record<string, number>>({})
+
+  const today = new Date()
+  const currentMonth = ref(today.getMonth())
+  const currentYear = ref(today.getFullYear())
+
+  // generate weeks of the calendar
+
+  const totalHours = computed(() => {
+    return Object.entries(dailyHours.value)
+      .filter(([date]) => {
+        const [y, m] = date.split('-').map(Number)
+        return y === currentYear.value && m === currentMonth.value + 1
+      })
+      .reduce((sum, [, hrs]) => sum + hrs, 0)
+  })
 </script>
 
 <style scoped>
@@ -84,14 +81,16 @@
     justify-content: center;
     align-items: flex-start;
     padding: 40px 20px;
-    height: 100vh;
+    height: auto;
     overflow: hidden;
-    background: linear-gradient(135deg, #b2feec 0%, #0ed2f7 100%);
   }
 
   .card {
+
+    flex: 1;
     width: 360px;
     background: rgba(255, 255, 255, 0.15);
+
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 24px;
     backdrop-filter: blur(20px);
@@ -100,6 +99,8 @@
   }
 
   .card-header h1 {
+    align-items: flex-start;
+    flex: 1;
     margin: 0;
     font-size: 24px;
     color: #0a2533;
@@ -113,46 +114,6 @@
     margin-top: 24px;
   }
 
-  .menu-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .menu-card:hover {
-    background: rgba(255, 255, 255, 0.35);
-  }
-
-  .menu-card .icon {
-    width: 24px;
-    height: 24px;
-    color: #054f4fff;
-    flex-shrink: 0;
-  }
-
-  .menu-card span {
-    flex: 1;
-    margin: 0 12px;
-    font-size: 16px;
-    color: #0a2533;
-    text-align: left;
-  }
-
-  .menu-card .arrow {
-    width: 24px;
-    height: 24px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    color: #0a2533;
-  }
 
 
   .overlay {

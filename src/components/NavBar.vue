@@ -46,7 +46,7 @@
     flex-direction: column;
     align-items: center;
     font-size: 14px;
-    padding: 2%;
+    justify-content: center;
     min-width: 80px;
     flex: 1;
   }
