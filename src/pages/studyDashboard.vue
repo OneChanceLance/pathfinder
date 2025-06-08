@@ -28,7 +28,7 @@
   import StudyCard from '@/components/StudyCard.vue';
   import ReadingSchedule from './ReadingSchedule.vue';
   import ResearchTopics from './ResearchTopics.vue';
-  import Notes from './Notes.vue';
+  import Notes from './NotesPage.vue';
 
 
   const activePage = ref<string | null>(null);

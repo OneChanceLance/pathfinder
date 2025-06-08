@@ -11,12 +11,16 @@
 </template>
 
 <script setup lang="ts">
-  import { defineComponent, h } from 'vue';
+  import { defineComponent, h, ref, onMounted } from 'vue';
 
   /* Icons */
   import Note from 'vue-material-design-icons/Note.vue';
   import Book from 'vue-material-design-icons/BookMultiple.vue';
   import Research from 'vue-material-design-icons/Magnify.vue';
+
+  import bibleImg from '@/assets/bible.png';
+  import notesImg from '@/assets/notes.png';
+  import researchImg from '@/assets/research.png';
 
   defineProps({
     title: {
@@ -48,23 +52,44 @@
   });
 
   const Banner = defineComponent({
-    props: {
-      variant: String,
-    },
+    props: { variant: String },
     setup(props) {
-      return () => {
-        if (props.variant === "Bible") {
-          return h('img', { src: '/src/assets/bible.png' });
-        } else if (props.variant === "Notes") {
-          return h('img', { src: '/src/assets/notes.png' });
-        } else if (props.variant === "Research") {
-          return h('img', { src: '/src/assets/research.png' });
+      const imageSources = {
+        Bible: bibleImg,
+        Notes: notesImg,
+        Research: researchImg
+      };
+
+      const bannerSrc = ref('');
+
+      const loadBannerImage = (url: string) => {
+        const storedImage = localStorage.getItem(url);
+        if (storedImage) {
+          bannerSrc.value = storedImage;
+        } else {
+          fetch(url)
+            .then(res => res.blob())
+            .then(blob => {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                const base64 = reader.result as string;
+                localStorage.setItem(url, base64);
+                bannerSrc.value = base64;
+              };
+              reader.readAsDataURL(blob);
+            })
+            .catch(console.error);
         }
       };
+
+      onMounted(() => {
+        const url = imageSources[props.variant as keyof typeof imageSources];
+        loadBannerImage(url);
+      });
+
+      return () => bannerSrc.value ? h('img', { src: bannerSrc.value }) : null;
     },
   });
-
-
 
 </script>
 
