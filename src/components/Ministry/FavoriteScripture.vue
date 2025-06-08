@@ -12,17 +12,17 @@
   import { ref, onMounted } from 'vue';
   import Icon from 'vue-material-design-icons/StarOutline.vue';
 
-  defineProps({
+  const props = defineProps({
     title: String,
-    scripture: String
+    number: Number
   });
 
   const displayTitle = ref('Favorite Scripture');
   const scriptureLink = ref('');
 
   onMounted(() => {
-    const storedScripture = localStorage.getItem('favoriteScripture');
-    const storedLink = localStorage.getItem('favoriteScriptureLink');
+    const storedScripture = localStorage.getItem(`favoriteScripture${props.number}`);
+    const storedLink = localStorage.getItem(`favoriteScriptureLink${props.number}`);
     if (storedScripture) displayTitle.value = storedScripture;
     if (storedLink) scriptureLink.value = storedLink;
   });
@@ -34,8 +34,8 @@
       if (input && link) {
         displayTitle.value = input;
         scriptureLink.value = link;
-        localStorage.setItem('favoriteScripture', input);
-        localStorage.setItem('favoriteScriptureLink', link);
+        localStorage.setItem(`favoriteScripture${props.number}`, input);
+        localStorage.setItem(`favoriteScriptureLink${props.number}`, link);
         window.open(link, '_blank');
       }
     } else {
@@ -44,8 +44,8 @@
   }
 
   function resetScripture() {
-    localStorage.removeItem('favoriteScripture');
-    localStorage.removeItem('favoriteScriptureLink');
+    localStorage.removeItem(`favoriteScripture${props.number}`);
+    localStorage.removeItem(`favoriteScriptureLink${props.number}`);
     displayTitle.value = 'Favorite Scripture';
     scriptureLink.value = '';
   }

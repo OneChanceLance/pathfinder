@@ -23,12 +23,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
 
-  const selectedSubject = ref(null)
+  type Subject = 'Astronomy' | 'Biology' | 'History' | 'Philosophy' | 'Technology'
+  const selectedSubject = ref<Subject | null>(null)
 
-  const contentMap = {
+  const contentMap: Record<Subject, string> = {
     Astronomy: 'Astronomy is the scientific study of celestial bodies such as stars, planets, and galaxies.',
     Biology: 'Biology is the study of living organisms, including their structure, function, growth, and evolution.',
     History: 'History is the study of past events, particularly in human affairs.',

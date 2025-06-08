@@ -11,9 +11,7 @@
     </div>
     <div class="call-list">
       <div class="call-card" v-for="call in calls" :key="call.id">
-        <h2>{{ call.name }}</h2>
-        <p>{{ call.address }}</p>
-        <p class="last-visited">Last Visited: {{ call.lastVisited }}</p>
+        <CallCard :name="call.name" :address="call.address" :last-visited="call.lastVisited" />
       </div>
     </div>
   </OverlayCard>
@@ -22,6 +20,7 @@
 <script setup lang="ts">
   import { reactive, ref } from 'vue';
 
+  import CallCard from '@/components/Calls/CallCard.vue';
   import OverlayCard from '@/components/OverlayCard.vue';
 
   const calls = ref(
@@ -109,19 +108,8 @@
     overflow-y: auto;
   }
 
-  .call-card {
-    background-color: #f4f4f4;
-    padding: 16px;
-    border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    color: #666;
-  }
 
-  .call-card h2 {
-    margin: 0 0 8px 0;
-    font-size: 18px;
-    color: #666;
-  }
+
 
   .last-visited {
     font-size: 12px;

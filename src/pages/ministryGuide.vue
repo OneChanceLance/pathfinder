@@ -15,11 +15,11 @@
             <RecentCall firstName="John" lastName="Doe" />
             <RecentCall firstName="Jane" lastName="Doe" />
           </MinistryCard>
-          <MinistryCard title="Scriptures" format="list" @click="openPage('scripture')">
-            <FavoriteScripture title="Favorite Scripture" :scripture=favScripture1 />
-            <FavoriteScripture title="Favorite Scripture" :scripture=favScripture2 />
-            <FavoriteScripture title="Favorite Scripture" :scripture=favScripture3 />
-          </MinistryCard>
+          <!-- <MinistryCard title="Scriptures" format="list" @click="openPage('scripture')">
+            <FavoriteScripture title="Favorite Scripture" :number="1" />
+            <FavoriteScripture title="Favorite Scripture" :number="2" />
+            <FavoriteScripture title="Favorite Scripture" :number="3" />
+          </MinistryCard> -->
         </div>
       </transition>
     </div>
@@ -49,12 +49,7 @@
   import ScriptureLauncher from './ScriptureLauncher.vue';
   import HoursPage from './HoursPage.vue';
   import TerritoriesPage from './TerritoriesPage.vue';
-  import FavoriteScripture from '@/components/Ministry/FavoriteScripture.vue';
-
-
-  const favScripture1 = ref<string | undefined>(localStorage.getItem('favScripture1') ?? undefined);
-  const favScripture2 = ref<string | undefined>(localStorage.getItem('favScripture2') ?? undefined);
-  const favScripture3 = ref<string | undefined>(localStorage.getItem('favScripture3') ?? undefined);
+  // import FavoriteScripture from '@/components/Ministry/FavoriteScripture.vue';
 
 
   const activePage = ref<string | null>(null);
