@@ -8,15 +8,39 @@
       <line x1="3" y1="10" x2="21" y2="10" />
     </svg>
     <div class="label">{{ title }}</div>
-    <div class="value">{{ data }}</div>
+    <div class="value">
+      <template v-if="variant === 'month'">{{ totalHours }}</template>
+      <template v-else-if="variant === 'year'">{{ ytdHours }}</template>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+  import { ref, computed } from 'vue';
   defineProps({
     title: String,
-    data: Number
+    variant: String,
   })
+  const dailyHours = ref<Record<string, number>>(JSON.parse(localStorage.getItem('dailyHours') || '{}'))
+
+  const today = new Date()
+  const currentMonth = ref(today.getMonth())
+  const currentYear = ref(today.getFullYear())
+
+
+  const totalHours = computed(() => {
+    return Object.entries(dailyHours.value)
+      .filter(([date]) => {
+        const [y, m] = date.split('-').map(Number)
+        return y === currentYear.value && m === currentMonth.value + 1
+      })
+      .reduce((sum, [, hrs]) => sum + hrs, 0)
+  })
+
+  // year-to-date total (all entries)
+  const ytdHours = computed(() =>
+    Object.values(dailyHours.value).reduce((sum, hrs) => sum + hrs, 0)
+  )
 </script>
 
 <style scoped>
@@ -56,4 +80,6 @@
     height: 36px;
     color: #219fb8;
   }
+
+
 </style>

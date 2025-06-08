@@ -5,7 +5,7 @@
       <span class="title">{{ title }}</span>
       <span class="arrow">›</span>
     </div>
-    <div class="details-row">
+    <div class="details-row" :class="format === 'grid' ? 'grid-layout' : 'column-layout'">
       <slot></slot>
     </div>
   </button>
@@ -19,6 +19,7 @@
 
   defineProps({
     title: String,
+    format: String,
   })
 
   const Icon = defineComponent({
@@ -77,18 +78,29 @@
   .menu-card .arrow {
     font-size: 18px;
     color: #0a2533;
-    flex-shrink: 0;
+    opacity: 0.9;
+    gap: 2rem;
   }
 
-  .details-row {
 
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  .details-row {
     text-align: left;
     height: auto;
     margin-top: 12px;
     border-radius: 10px;
     opacity: 0.9;
+
+  }
+
+  .details-row.column-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .details-row.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
 

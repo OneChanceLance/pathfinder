@@ -7,16 +7,18 @@
 
       <transition name="slide">
         <div v-if="!activePage" class="menu-grid">
-          <MinistryCard title="Hours" @click="openPage('hours')">
-            <MinistryStat title="This Month" :data=totalHours />
-            <MinistryStat title="Service Year" :data=totalHours />
+          <MinistryCard title="Hours" format="grid" @click="openPage('hours')">
+            <MinistryStat title="This Month" variant="month" />
+            <MinistryStat title="Service Year" variant="year" />
           </MinistryCard>
-          <MinistryCard title="Calls" @click="openPage('calls')">
+          <MinistryCard title="Calls" format="grid" @click="openPage('calls')">
             <RecentCall firstName="John" lastName="Doe" />
             <RecentCall firstName="Jane" lastName="Doe" />
           </MinistryCard>
-          <MinistryCard title="Scriptures" @click="openPage('scripture')">
-            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+          <MinistryCard title="Scriptures" format="list" @click="openPage('scripture')">
+            <FavoriteScripture title="Favorite Scripture" :scripture=favScripture1 />
+            <FavoriteScripture title="Favorite Scripture" :scripture=favScripture2 />
+            <FavoriteScripture title="Favorite Scripture" :scripture=favScripture3 />
           </MinistryCard>
         </div>
       </transition>
@@ -38,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref } from 'vue'
 
   import MinistryCard from '@/components/Ministry/MinistryCard.vue';
   import MinistryStat from '@/components/Ministry/MinistryStat.vue';
@@ -47,6 +49,12 @@
   import ScriptureLauncher from './ScriptureLauncher.vue';
   import HoursPage from './HoursPage.vue';
   import TerritoriesPage from './TerritoriesPage.vue';
+  import FavoriteScripture from '@/components/Ministry/FavoriteScripture.vue';
+
+
+  const favScripture1 = ref<string | undefined>(localStorage.getItem('favScripture1') ?? undefined);
+  const favScripture2 = ref<string | undefined>(localStorage.getItem('favScripture2') ?? undefined);
+  const favScripture3 = ref<string | undefined>(localStorage.getItem('favScripture3') ?? undefined);
 
 
   const activePage = ref<string | null>(null);
@@ -58,22 +66,9 @@
     activePage.value = null;
   }
 
-  const dailyHours = ref<Record<string, number>>({})
-
-  const today = new Date()
-  const currentMonth = ref(today.getMonth())
-  const currentYear = ref(today.getFullYear())
 
   // generate weeks of the calendar
 
-  const totalHours = computed(() => {
-    return Object.entries(dailyHours.value)
-      .filter(([date]) => {
-        const [y, m] = date.split('-').map(Number)
-        return y === currentYear.value && m === currentMonth.value + 1
-      })
-      .reduce((sum, [, hrs]) => sum + hrs, 0)
-  })
 </script>
 
 <style scoped>

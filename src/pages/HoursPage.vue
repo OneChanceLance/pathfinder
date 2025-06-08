@@ -9,10 +9,11 @@
           <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
         </svg>
         <select v-model="selectedRole" class="glass-field">
-          <option value="Publisher (No Requirement)">Publisher</option>
+          <option value="Publisher">Publisher</option>
           <option value="Auxiliary Pioneer">Auxiliary Pioneer</option>
           <option value="Regular Pioneer">Regular Pioneer</option>
         </select>
+
       </div>
       <div class="option">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -21,9 +22,17 @@
           <polyline points="12 6 12 12 16 14" />
         </svg>
         <label class="nowrap-label">Monthly Goal (hours)</label>
-        <input type="number" v-model.number="monthlyGoal" class="glass-field flex-input" />
+        <input type="number" v-model.number="monthlyGoal" :disabled="selectedRole !== 'Publisher'"
+          class="glass-field flex-input" />
+      </div>
+      <div v-if="showCampaignToggle" class="option campaign-toggle">
+        <label class="toggle-label">
+          <input type="checkbox" v-model="isSpecialCampaign" />
+          Reduced
+        </label>
       </div>
     </div>
+
 
     <!-- Stats -->
     <div class="stats">
@@ -87,14 +96,41 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, computed, watch } from 'vue'
   import OverlayCard from '@/components/OverlayCard.vue'
-  const roles = ['Publisher', 'Auxiliary Pioneer', 'Regular Pioneer']
-  const selectedRole = ref(roles[0])
-  const monthlyGoal = ref(0)
 
-  // track hours per day keyed by "YYYY-MM-DD"
-  const dailyHours = ref<Record<string, number>>({})
+  const isSpecialCampaign = ref(localStorage.getItem('isSpecialCampaign') === 'true')
+  const selectedRole = ref(localStorage.getItem('selectedRole') || 'Publisher')
+  const monthlyGoal = ref(0) // start with 0, we’ll assign it after
+
+  const showCampaignToggle = computed(() =>
+    selectedRole.value === 'Auxiliary Pioneer' || selectedRole.value === 'Regular Pioneer'
+  )
+
+  const normalGoals: Record<string, number> = {
+    'Auxiliary Pioneer': 30,
+    'Regular Pioneer': 50,
+  }
+
+  const campaignGoals: Record<string, number> = {
+    'Auxiliary Pioneer': 15,
+    'Regular Pioneer': 30,
+  }
+
+  const assignGoal = (role: string) => {
+    if (role === 'Publisher') {
+      monthlyGoal.value = Number(localStorage.getItem('monthlyGoal') || 0)
+    } else {
+      const goalMap = isSpecialCampaign.value ? campaignGoals : normalGoals
+      monthlyGoal.value = goalMap[role] || 0
+    }
+  }
+
+  // Immediately apply the correct goal on page load
+  assignGoal(selectedRole.value)
+
+
+  const dailyHours = ref<Record<string, number>>(JSON.parse(localStorage.getItem('dailyHours') || '{}'))
 
   const today = new Date()
   const currentMonth = ref(today.getMonth())
@@ -131,7 +167,7 @@
   })
 
   // remaining for this month
-  const remainingHours = computed(() => monthlyGoal.value - totalHours.value)
+  const remainingHours = computed(() => Math.max(0, monthlyGoal.value - totalHours.value))
 
   // year-to-date total (all entries)
   const ytdHours = computed(() =>
@@ -163,6 +199,26 @@
   }
 
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+  watch(monthlyGoal, (newGoal) => {
+    // Save only if user is a Publisher (i.e. it's their custom goal)
+    if (selectedRole.value === 'Publisher') {
+      localStorage.setItem('monthlyGoal', String(newGoal))
+    }
+  })
+
+  watch(isSpecialCampaign, (newVal) => {
+    localStorage.setItem('isSpecialCampaign', String(newVal))
+
+    // Only auto-update the goal if not Publisher
+    if (selectedRole.value !== 'Publisher') {
+      assignGoal(selectedRole.value)
+    }
+  })
+  watch(selectedRole, (newRole) => {
+    localStorage.setItem('selectedRole', newRole)
+    assignGoal(newRole)
+  })
 </script>
 
 <style scoped>
@@ -179,6 +235,9 @@
 
   .option {
     display: flex;
+    background-color: rgb(255, 255, 255);
+    padding: 8px 16px;
+    border-radius: 0.75rem;
     align-items: center;
     gap: 8px;
     flex-wrap: nowrap;
@@ -283,8 +342,28 @@
 
 
   .flex-input {
-    margin-left: auto;
+
     flex-shrink: 0;
+    margin-left: 8px;
+    text-align: right;
+    width: 80px;
+    margin-right: 0rem;
+  }
+
+  .campaign-toggle {
+    margin-top: auto;
+    margin-left: auto;
+    opacity: 0.6;
+    font-size: 14px;
+    user-select: none;
+    width: auto;
+    justify-content: right;
+  }
+
+  .toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
 
